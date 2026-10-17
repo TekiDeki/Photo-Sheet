@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-version="1">
+<html lang="en" data-version="2">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -1990,7 +1990,7 @@ window.TD_LOCALES = {
     var sheet = currentSheet();
     var canvas = exportSheetCanvas();
     withDpi(canvas, function (blob) {
-      download(blob, 'photo-sheet-' + sheet.w + 'x' + sheet.h + 'cm-300dpi.png');
+      download(blob, 'photo-sheet-' + sheet.w + 'x' + sheet.h + 'mm-300dpi.png');
       toast(t('toastSheet'));
     });
   }
@@ -2231,6 +2231,6 @@ window.TD_LOCALES = {
   }
 }());
 </script>
-<!-- Photo Sheet 1 · single file build -->
+<!-- Photo Sheet 2 · single file build -->
 </body>
 </html>

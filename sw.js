@@ -5,7 +5,7 @@
  * The photo itself never goes through the network, so this worker only keeps
  * the app shell. Bump VERSION whenever index.html changes.
  */
-var VERSION = '1';
+var VERSION = '2';
 var CACHE = 'photo-sheet-v' + VERSION;
 var ASSETS = [
   './',
@@ -46,18 +46,34 @@ self.addEventListener('fetch', function (event) {
   var url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
 
+  /* Pages go to the network first, so a new build is picked up on the next
+   * visit. Everything else is served from the cache and refreshed quietly. */
+  if (request.mode === 'navigate') {
+    event.respondWith(
+      fetch(request).then(function (response) {
+        var copy = response.clone();
+        caches.open(CACHE).then(function (cache) { cache.put('./index.html', copy); });
+        return response;
+      }).catch(function () {
+        return caches.match('./index.html').then(function (cached) {
+          return cached || new Response('Offline', { status: 503, statusText: 'Offline', headers: { 'Content-Type': 'text/plain' } });
+        });
+      })
+    );
+    return;
+  }
+
   event.respondWith(
     caches.match(request).then(function (cached) {
-      if (cached) return cached;
-      return fetch(request).then(function (response) {
+      var network = fetch(request).then(function (response) {
         if (!response || response.status !== 200 || response.type === 'opaque') return response;
         var copy = response.clone();
         caches.open(CACHE).then(function (cache) { cache.put(request, copy); });
         return response;
       }).catch(function () {
-        if (request.mode === 'navigate') return caches.match('./index.html');
-        return new Response('', { status: 503, statusText: 'Offline' });
+        return cached || new Response('', { status: 503, statusText: 'Offline' });
       });
+      return cached || network;
     })
   );
 });

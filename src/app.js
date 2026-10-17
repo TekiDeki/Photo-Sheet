@@ -757,7 +757,7 @@
     var sheet = currentSheet();
     var canvas = exportSheetCanvas();
     withDpi(canvas, function (blob) {
-      download(blob, 'photo-sheet-' + sheet.w + 'x' + sheet.h + 'cm-300dpi.png');
+      download(blob, 'photo-sheet-' + sheet.w + 'x' + sheet.h + 'mm-300dpi.png');
       toast(t('toastSheet'));
     });
   }
