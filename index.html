@@ -1,0 +1,2236 @@
+<!DOCTYPE html>
+<html lang="en" data-version="1">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#17616f">
+<title>Photo Sheet · passport and ID photos, printed at home</title>
+<meta name="description" content="Crop a photo to 35 x 45 mm, 30 x 40 mm or 51 x 51 mm with millimetre guides, then print a full 10 x 15 sheet at 300 dpi. The photo never leaves your browser.">
+<meta name="author" content="Kristian Mario Miskovic (TekiDeki)">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://tekideki.github.io/Photo-Sheet/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Photo Sheet">
+<meta property="og:title" content="Photo Sheet · passport photos, printed at home">
+<meta property="og:description" content="Line the face up with millimetre guides, print a 10 x 15 sheet at 300 dpi. No upload, no account, no server.">
+<meta property="og:url" content="https://tekideki.github.io/Photo-Sheet/">
+<meta property="og:image" content="https://tekideki.github.io/Photo-Sheet/screenshots/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_GB">
+<meta property="og:locale:alternate" content="ro_RO">
+<meta property="og:locale:alternate" content="sr_RS">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Photo Sheet · passport photos, printed at home">
+<meta name="twitter:description" content="Crop to the exact size your document asks for, then print a full sheet. Everything stays in your browser.">
+<meta name="twitter:image" content="https://tekideki.github.io/Photo-Sheet/screenshots/og.png">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+/* Photo Sheet · TekiDeki - styles
+ * SPDX-License-Identifier: Apache-2.0
+ * Copyright 2026 Kristian Mario Miskovic (TekiDeki)
+ * No external font, no icon font, no CDN. Everything below is local.
+ */
+
+:root {
+  --bg: #f1eee6;
+  --panel: #fffdf9;
+  --panel-2: #f8f5ee;
+  --line: #e3ded2;
+  --line-strong: #cec6b6;
+  --ink: #1b2530;
+  --ink-soft: #4d5b66;
+  --ink-muted: #5e6a74;
+  --accent: #17616f;
+  --accent-hover: #124f5b;
+  --accent-soft: #dceef0;
+  --on-accent: #ffffff;
+  --ok: #1f7a5c;
+  --ok-soft: #e1f2ea;
+  --warn: #a8641a;
+  --warn-soft: #f8ecd9;
+  --bad: #b3261e;
+  --bad-soft: #fbe4e1;
+  --stage: #242b32;
+  --paper: #ffffff;
+  --shadow: 0 1px 2px rgba(27, 37, 48, 0.05), 0 12px 30px rgba(27, 37, 48, 0.07);
+  --radius: 18px;
+  --radius-sm: 11px;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  color-scheme: light;
+}
+
+.theme-dark {
+  --bg: #0f1518;
+  --panel: #161f23;
+  --panel-2: #121a1e;
+  --line: #243138;
+  --line-strong: #36454d;
+  --ink: #e9eff2;
+  --ink-soft: #b3c0c7;
+  --ink-muted: #81919a;
+  --accent: #6cc7d4;
+  --accent-hover: #8ad6e0;
+  --accent-soft: #14343a;
+  --on-accent: #08262b;
+  --ok: #5ecfa9;
+  --ok-soft: #102e28;
+  --warn: #e0a34a;
+  --warn-soft: #33270f;
+  --bad: #f2978f;
+  --bad-soft: #361a18;
+  --stage: #080c0e;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 16px 34px rgba(0, 0, 0, 0.28);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 { margin: 0; line-height: 1.2; letter-spacing: -0.01em; }
+
+p { margin: 0; }
+
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+
+button, input, select, summary { font: inherit; color: inherit; }
+
+svg { display: block; }
+
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+.skip-link {
+  position: absolute; left: 12px; top: -48px; z-index: 60;
+  padding: 10px 16px; border-radius: 0 0 10px 10px;
+  background: var(--accent); color: var(--on-accent); font-weight: 600;
+  text-decoration: none; transition: top 0.15s ease;
+}
+.skip-link:focus { top: 0; }
+
+/* ----------------------------------------------------------------- topbar */
+
+.topbar {
+  position: sticky; top: 0; z-index: 40;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: saturate(1.4) blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+.topbar-inner {
+  max-width: 1180px; margin: 0 auto;
+  padding: 10px 22px;
+  display: flex; align-items: center; gap: 16px;
+}
+.brand {
+  display: flex; align-items: center; gap: 11px;
+  color: var(--ink); text-decoration: none; margin-right: auto; min-width: 0;
+}
+.brand-mark {
+  width: 36px; height: 36px; flex: 0 0 36px;
+  display: grid; place-items: center;
+  border-radius: 11px;
+  background: var(--accent-soft); color: var(--accent);
+}
+.brand-mark svg { width: 26px; height: 26px; }
+.brand-text { display: flex; flex-direction: column; min-width: 0; }
+.brand-text > span:first-child { font-weight: 700; letter-spacing: -0.01em; }
+.brand-tagline {
+  font-size: 12.5px; color: var(--ink-muted); line-height: 1.25;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.topbar-actions { display: flex; align-items: center; gap: 8px; }
+
+.icon-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 8px 11px; border-radius: 10px;
+  border: 1px solid var(--line); background: var(--panel);
+  color: var(--ink-soft); font-size: 13.5px; font-weight: 600;
+  cursor: pointer; transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.icon-btn:hover:not(:disabled) { border-color: var(--line-strong); color: var(--ink); }
+.icon-btn:disabled { opacity: 0.45; cursor: default; }
+.icon-btn svg {
+  width: 17px; height: 17px; fill: none; stroke: currentColor;
+  stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+}
+.theme-sun { display: none; }
+.theme-dark .theme-sun { display: block; }
+.theme-dark .theme-moon { display: none; }
+
+select {
+  appearance: none;
+  padding: 8px 32px 8px 11px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background-color: var(--panel);
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: calc(100% - 16px) 52%, calc(100% - 11px) 52%;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  font-size: 13.5px; font-weight: 600; color: var(--ink-soft);
+  cursor: pointer;
+}
+
+/* ------------------------------------------------------------------ layout */
+
+.wrap { max-width: 1180px; margin: 0 auto; padding: 30px 22px 44px; }
+
+.intro { max-width: 760px; margin: 0 0 26px; }
+.intro h1 {
+  font-family: var(--serif);
+  font-size: clamp(1.75rem, 1.2rem + 2.3vw, 2.7rem);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+.lede { margin-top: 12px; color: var(--ink-soft); font-size: 1.02rem; max-width: 64ch; }
+.lede.small { font-size: 0.95rem; }
+
+.claims {
+  list-style: none; margin: 18px 0 0; padding: 0;
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.claims li {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 6px 12px 6px 10px;
+  border-radius: 999px;
+  background: var(--panel); border: 1px solid var(--line);
+  font-size: 12.5px; font-weight: 600; color: var(--ink-soft);
+  letter-spacing: 0.02em;
+}
+.claims li::before {
+  content: ""; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--ok);
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.06fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+
+.panel-head { margin-bottom: 16px; }
+.panel-head h2 {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 1.15rem; font-weight: 700;
+}
+.step {
+  display: grid; place-items: center;
+  width: 26px; height: 26px; flex: 0 0 26px;
+  border-radius: 50%;
+  background: var(--accent); color: var(--on-accent);
+  font-size: 13px; font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.panel-sub { margin-top: 6px; font-size: 13px; color: var(--ink-muted); }
+
+/* ---------------------------------------------------------------- dropzone */
+
+.drop {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 10px; text-align: center;
+  min-height: 300px; padding: 30px 22px;
+  border: 2px dashed var(--line-strong);
+  border-radius: 15px;
+  background: var(--panel-2);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.drop.dragover { border-color: var(--accent); background: var(--accent-soft); }
+.drop.is-hidden { display: none; }
+.drop-icon { color: var(--accent); opacity: 0.85; }
+.drop-icon svg { width: 52px; height: 52px; }
+.drop strong { font-size: 1.05rem; }
+.drop-hint { font-size: 13.5px; color: var(--ink-muted); max-width: 34ch; }
+.drop .btn { margin-top: 6px; }
+
+/* ------------------------------------------------------------------- stage */
+
+.stage {
+  display: flex; justify-content: center;
+  padding: 14px;
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(255, 255, 255, 0.06), transparent 60%),
+    var(--stage);
+}
+#stageCanvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 3px;
+  cursor: grab;
+  touch-action: none;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.35);
+}
+#stageCanvas:active { cursor: grabbing; }
+
+.stage-tools { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 12px; }
+
+.zoom-row {
+  display: grid;
+  grid-template-columns: auto 30px minmax(0, 1fr) 30px auto;
+  align-items: center; gap: 9px;
+  margin-top: 12px;
+}
+.zoom-row label { font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+.round-btn {
+  width: 30px; height: 30px; border-radius: 50%;
+  border: 1px solid var(--line); background: var(--panel-2);
+  color: var(--ink-soft); font-size: 17px; font-weight: 600; line-height: 1;
+  cursor: pointer; display: grid; place-items: center;
+}
+.round-btn:hover { border-color: var(--line-strong); color: var(--ink); }
+input[type="range"] {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 26px; background: transparent; cursor: pointer;
+}
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 5px; border-radius: 999px; background: var(--line-strong);
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 19px; height: 19px; margin-top: -7px;
+  border-radius: 50%; background: var(--accent);
+  border: 2px solid var(--panel);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+input[type="range"]::-moz-range-track { height: 5px; border-radius: 999px; background: var(--line-strong); }
+input[type="range"]::-moz-range-thumb {
+  width: 17px; height: 17px; border-radius: 50%;
+  background: var(--accent); border: 2px solid var(--panel);
+}
+.zoom-value {
+  font-family: var(--mono); font-size: 12.5px; color: var(--ink-soft);
+  min-width: 46px; text-align: right;
+}
+
+.chips { list-style: none; display: flex; flex-wrap: wrap; gap: 7px; margin: 12px 0 0; padding: 0; }
+.chip {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 5px 11px; border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+  font-size: 12.5px; font-weight: 600; color: var(--ink-soft);
+}
+.chip .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ink-muted); }
+.chip[data-state="good"] { border-color: color-mix(in srgb, var(--ok) 35%, var(--line)); }
+.chip[data-state="good"] .dot { background: var(--ok); }
+.chip[data-state="warn"] { background: var(--warn-soft); border-color: color-mix(in srgb, var(--warn) 35%, var(--line)); }
+.chip[data-state="warn"] .dot { background: var(--warn); }
+.chip[data-state="bad"] { background: var(--bad-soft); border-color: color-mix(in srgb, var(--bad) 40%, var(--line)); }
+.chip[data-state="bad"] .dot { background: var(--bad); }
+
+.hint { margin-top: 10px; font-size: 12.5px; color: var(--ink-muted); }
+
+/* ------------------------------------------------------------------ sheet */
+
+.fields { display: grid; gap: 11px; margin-bottom: 14px; }
+.field { display: grid; gap: 5px; }
+.field > span { font-size: 12.5px; font-weight: 700; color: var(--ink-soft); letter-spacing: 0.01em; }
+.field select { width: 100%; padding-top: 9px; padding-bottom: 9px; }
+.field-custom {
+  grid-template-columns: 1fr 1fr; gap: 9px;
+  padding: 10px; border-radius: 12px; background: var(--panel-2); border: 1px solid var(--line);
+}
+.sub-field { display: grid; gap: 4px; }
+.sub-field span { font-size: 12px; color: var(--ink-muted); font-weight: 600; }
+input[type="number"] {
+  width: 100%; padding: 8px 10px;
+  border-radius: 9px; border: 1px solid var(--line);
+  background: var(--panel); color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.sheet-stage {
+  display: flex; justify-content: center;
+  padding: 16px;
+  border-radius: 14px;
+  background:
+    repeating-linear-gradient(45deg, var(--panel-2) 0 9px, var(--panel) 9px 18px);
+  border: 1px solid var(--line);
+}
+#sheetCanvas {
+  display: block; max-width: 100%; height: auto;
+  background: var(--paper);
+  box-shadow: 0 10px 30px rgba(20, 30, 40, 0.16), 0 1px 2px rgba(20, 30, 40, 0.12);
+  border-radius: 2px;
+}
+
+.count {
+  margin-top: 12px; font-size: 14px; font-weight: 600; color: var(--ink);
+  display: flex; align-items: center; gap: 8px;
+}
+.count::before {
+  content: ""; width: 8px; height: 8px; border-radius: 2px;
+  background: var(--accent);
+}
+
+.toggles { display: flex; flex-wrap: wrap; gap: 18px; margin: 14px 0 4px; }
+.toggles-stage { margin: 12px 0 0; }
+.switch { display: inline-flex; align-items: center; gap: 9px; font-size: 13.5px; font-weight: 600; color: var(--ink-soft); cursor: pointer; }
+.switch input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.switch-track {
+  position: relative; width: 38px; height: 22px; flex: 0 0 38px;
+  border-radius: 999px; background: var(--line-strong);
+  transition: background 0.15s ease;
+}
+.switch-track::after {
+  content: ""; position: absolute; top: 3px; left: 3px;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--panel);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: transform 0.15s ease;
+}
+.switch input:checked + .switch-track { background: var(--accent); }
+.switch input:checked + .switch-track::after { transform: translateX(16px); }
+.switch input:focus-visible + .switch-track { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  padding: 10px 16px;
+  border-radius: 11px;
+  border: 1px solid var(--line-strong);
+  background: var(--panel);
+  color: var(--ink);
+  font-size: 14px; font-weight: 650;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+}
+.btn:hover:not(:disabled) { border-color: var(--ink-muted); }
+.btn:active:not(:disabled) { transform: translateY(1px); }
+.btn:disabled { opacity: 0.42; cursor: not-allowed; }
+.btn-primary {
+  background: var(--accent); border-color: var(--accent); color: var(--on-accent);
+}
+.btn-primary:hover:not(:disabled) { background: var(--accent-hover); border-color: var(--accent-hover); }
+.btn-sm { padding: 7px 12px; font-size: 13px; border-radius: 9px; }
+.btn-quiet { border-color: transparent; background: transparent; color: var(--ink-muted); }
+.btn-quiet:hover:not(:disabled) { color: var(--ink); background: var(--panel-2); }
+
+.tiny { font-size: 12px; color: var(--ink-muted); margin-top: 10px; }
+
+/* ------------------------------------------------------------------- tips */
+
+.tips { margin-top: 34px; }
+.tips h2 { font-family: var(--serif); font-size: 1.45rem; font-weight: 600; }
+.tips .lede { margin-top: 8px; margin-bottom: 16px; }
+.tips-grid {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0 22px;
+}
+.tips details {
+  border-top: 1px solid var(--line);
+  padding: 12px 2px 14px;
+}
+.tips summary {
+  cursor: pointer; font-weight: 650; font-size: 14.5px;
+  list-style: none; display: flex; align-items: center; gap: 9px;
+}
+.tips summary::-webkit-details-marker { display: none; }
+.tips summary::before {
+  content: "+"; width: 18px; height: 18px; flex: 0 0 18px;
+  display: grid; place-items: center;
+  border-radius: 50%; border: 1px solid var(--line-strong);
+  font-size: 13px; line-height: 1; color: var(--ink-muted);
+}
+.tips details[open] summary::before { content: "-"; }
+.tips details p { margin-top: 8px; font-size: 13.5px; color: var(--ink-soft); max-width: 46ch; }
+
+/* ------------------------------------------------------------------ about */
+
+.about {
+  margin-top: 30px; padding-top: 26px;
+  border-top: 1px solid var(--line);
+}
+.about h2 { font-family: var(--serif); font-size: 1.45rem; font-weight: 600; }
+.about > p { margin-top: 10px; color: var(--ink-soft); max-width: 78ch; }
+.about-grid {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 26px; margin-top: 20px;
+}
+.about-grid h3 { font-size: 14px; font-weight: 700; }
+.about-grid p { margin-top: 6px; font-size: 13.5px; color: var(--ink-soft); }
+
+/* ------------------------------------------------------------------- foot */
+
+.foot { border-top: 1px solid var(--line); background: var(--panel); }
+.foot-inner {
+  max-width: 1180px; margin: 0 auto; padding: 18px 22px;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px 22px;
+  font-size: 12.5px; color: var(--ink-muted);
+}
+.foot-note { margin-right: auto; }
+.foot-links { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+.foot-links a { color: var(--ink-soft); text-decoration: none; font-weight: 600; }
+.foot-links a:hover { color: var(--accent); }
+
+/* ------------------------------------------------------------------ toast */
+
+.toast {
+  position: fixed; left: 50%; bottom: 22px; z-index: 50;
+  transform: translate(-50%, 16px);
+  padding: 10px 18px; border-radius: 999px;
+  background: var(--ink); color: var(--bg);
+  font-size: 13.5px; font-weight: 600;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.25);
+}
+.toast.is-on { opacity: 1; transform: translate(-50%, 0); }
+
+/* ------------------------------------------------------------------- misc */
+
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+
+[hidden] { display: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
+
+/* ------------------------------------------------------------- responsive */
+
+@media (max-width: 980px) {
+  .workspace { grid-template-columns: minmax(0, 1fr); }
+  .tips-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 720px) {
+  .wrap { padding: 22px 15px 34px; }
+  .topbar-inner { padding: 9px 15px; gap: 10px; }
+  .icon-btn span { display: none; }
+  .icon-btn { padding: 8px 9px; }
+  .brand-tagline { display: none; }
+  .panel { padding: 16px; border-radius: 15px; }
+  .drop { min-height: 250px; padding: 24px 16px; }
+  .about-grid { grid-template-columns: minmax(0, 1fr); }
+  .tips-grid { grid-template-columns: minmax(0, 1fr); }
+  #stageCanvas { max-height: 60vh; width: auto; }
+}
+
+@media (max-width: 430px) {
+  .zoom-row { grid-template-columns: 30px minmax(0, 1fr) 30px auto; }
+  .zoom-row label { grid-column: 1 / -1; }
+  .btn { padding: 10px 13px; font-size: 13.5px; }
+  .field-custom { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ------------------------------------------------------------------ print */
+
+@page { size: 100mm 150mm; margin: 0; }
+
+.print-area { display: none; }
+
+@media print {
+  html, body { margin: 0; padding: 0; background: #fff; }
+  body > *:not(.print-area) { display: none !important; }
+  .print-area { display: block !important; }
+  .print-area img { display: block; width: 100%; height: 100%; }
+}
+</style>
+<style id="pageStyle">@page { size: 100mm 150mm; margin: 0; }</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Photo Sheet","applicationCategory":"MultimediaApplication","operatingSystem":"Any (web browser)","url":"https://tekideki.github.io/Photo-Sheet/","description":"Passport and ID photo cropper with millimetre guides that prints a ready to cut sheet at 300 dpi. Photos never leave the browser.","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"author":{"@type":"Person","name":"Kristian Mario Miskovic","alternateName":"TekiDeki"},"license":"https://www.apache.org/licenses/LICENSE-2.0","isAccessibleForFree":true}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main" data-i18n="skipToContent">Skip to content</a>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="#main">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32"><rect x="3" y="3" width="26" height="26" rx="6" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="13" r="4.2" fill="currentColor"/><path d="M8.5 25c1.2-4 4-6 7.5-6s6.3 2 7.5 6" fill="currentColor"/><path d="M3 10V6a3 3 0 0 1 3-3h4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+      </span>
+      <span class="brand-text">
+        <span>Photo Sheet</span>
+        <span class="brand-tagline" data-i18n="tagline">Passport photos, printed at home.</span>
+      </span>
+    </a>
+
+    <div class="topbar-actions">
+      <button type="button" class="icon-btn" id="undoBtn" disabled data-i18n-title="undoTip" title="Undo the last crop change">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg>
+        <span data-i18n="undo">Undo</span>
+      </button>
+      <button type="button" class="icon-btn" id="themeBtn" data-i18n-title="themeToggle" title="Switch light or dark theme">
+        <svg class="theme-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.8 6.8 0 0 0 9.8 9.8Z"/></svg>
+        <svg class="theme-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg>
+        <span data-i18n="theme">Theme</span>
+      </button>
+      <label class="sr-only" for="langSelect" data-i18n="language">Language</label>
+      <select id="langSelect" aria-label="Language" data-i18n-aria-label="language">
+        <option value="en">English</option>
+        <option value="ro">Română</option>
+        <option value="sr-latn">Srpski</option>
+        <option value="sr-cyrl">Српски</option>
+      </select>
+    </div>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="intro">
+    <h1 data-i18n="h1">Passport photos, printed at home</h1>
+    <p class="lede" data-i18n="lede">Choose the size your document asks for, line the face up with the guides, then print a whole sheet on photo paper. The photo never leaves this device.</p>
+    <ul class="claims">
+      <li data-i18n="claimNoUpload">No upload</li>
+      <li data-i18n="claimNoAccount">No account</li>
+      <li data-i18n="claim300">300 dpi output</li>
+      <li data-i18n="claimPaper">Ready to cut</li>
+    </ul>
+  </section>
+
+  <div class="workspace">
+
+    <section class="panel panel-photo" id="photoPanel" aria-labelledby="photoHead">
+      <header class="panel-head">
+        <h2 id="photoHead"><span class="step" aria-hidden="true">1</span><span data-i18n="step1">Your photo</span></h2>
+        <p class="panel-sub" data-i18n="step1Sub">Nothing is uploaded. The file is read locally by the browser.</p>
+      </header>
+
+      <div class="drop" id="dropZone">
+        <div class="drop-icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48"><rect x="6" y="9" width="36" height="30" rx="5" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="24" cy="21" r="6" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M13 34l7-6 5 4 4-3 6 5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <strong data-i18n="dropTitle">Choose a photo</strong>
+        <span class="drop-hint" data-i18n="dropHint">or drop a file here. JPG, PNG or WebP, up to 25 MB.</span>
+        <button type="button" class="btn btn-primary" id="pickBtn" data-i18n="pickBtn">Choose photo</button>
+        <input type="file" id="fileInput" class="sr-only" accept="image/jpeg,image/png,image/webp,image/*" aria-label="Photo file" data-i18n-aria-label="fileAria">
+        <p class="tiny" data-i18n="dropPrivacy">The photo stays in this tab. It is never uploaded, stored or sent anywhere.</p>
+      </div>
+
+      <div class="stage-block" id="stageBlock" hidden>
+        <div class="stage" id="stage">
+          <canvas id="stageCanvas" tabindex="0" role="img" aria-label="Crop preview" data-i18n-aria-label="stageAria"></canvas>
+        </div>
+
+        <div class="stage-tools">
+          <button type="button" class="btn btn-sm" id="rotateBtn" data-i18n="rotateBtn">Rotate 90</button>
+          <button type="button" class="btn btn-sm" id="flipBtn" data-i18n="flipBtn">Flip</button>
+          <button type="button" class="btn btn-sm" id="resetBtn" data-i18n="resetBtn">Reset crop</button>
+          <button type="button" class="btn btn-sm btn-quiet" id="replaceBtn" data-i18n="replaceBtn">Replace</button>
+          <button type="button" class="btn btn-sm btn-quiet" id="removeBtn" data-i18n="removeBtn">Remove</button>
+        </div>
+
+        <div class="zoom-row">
+          <label for="zoomRange" data-i18n="zoomLabel">Zoom</label>
+          <button type="button" class="round-btn" id="zoomOutBtn" data-i18n-aria-label="zoomOutAria" aria-label="Zoom out">-</button>
+          <input type="range" id="zoomRange" min="1" max="3" step="0.01" value="1" data-i18n-aria-label="zoomLabel" aria-label="Zoom">
+          <button type="button" class="round-btn" id="zoomInBtn" data-i18n-aria-label="zoomInAria" aria-label="Zoom in">+</button>
+          <output class="zoom-value" id="zoomValue" for="zoomRange">100%</output>
+        </div>
+
+        <ul class="chips" id="chips">
+          <li class="chip" id="chipResolution" data-state="good"><span class="dot" aria-hidden="true"></span><span class="chip-text">Full resolution</span></li>
+          <li class="chip" id="chipBackground" data-state="good"><span class="dot" aria-hidden="true"></span><span class="chip-text">Background even</span></li>
+          <li class="chip" id="chipSharpness" data-state="good"><span class="dot" aria-hidden="true"></span><span class="chip-text">Sharp</span></li>
+        </ul>
+
+        <div class="toggles toggles-stage">
+          <label class="switch">
+            <input type="checkbox" id="guidesToggle" checked>
+            <span class="switch-track" aria-hidden="true"></span>
+            <span data-i18n="guidesToggle">Guides</span>
+          </label>
+        </div>
+
+        <p class="hint" data-i18n="hintDrag">Drag the photo to move it. Arrow keys nudge, Shift moves further.</p>
+      </div>
+    </section>
+
+    <section class="panel panel-sheet" id="sheetPanel" aria-labelledby="sheetHead">
+      <header class="panel-head">
+        <h2 id="sheetHead"><span class="step" aria-hidden="true">2</span><span data-i18n="step2">Your sheet</span></h2>
+        <p class="panel-sub" id="presetNote">Schengen, Serbia, Romania, most of Europe</p>
+      </header>
+
+      <div class="fields">
+        <label class="field">
+          <span data-i18n="presetLabel">Photo size</span>
+          <select id="presetSelect"></select>
+        </label>
+        <div class="field field-custom" id="customField" hidden>
+          <label class="sub-field">
+            <span data-i18n="customW">Width (mm)</span>
+            <input type="number" id="customW" min="15" max="150" step="0.5" value="35" inputmode="decimal">
+          </label>
+          <label class="sub-field">
+            <span data-i18n="customH">Height (mm)</span>
+            <input type="number" id="customH" min="15" max="150" step="0.5" value="45" inputmode="decimal">
+          </label>
+        </div>
+        <label class="field">
+          <span data-i18n="sheetLabel">Paper</span>
+          <select id="sheetSelect"></select>
+        </label>
+      </div>
+
+      <div class="sheet-stage" id="sheetStage">
+        <canvas id="sheetCanvas" role="img" aria-label="Sheet preview" data-i18n-aria-label="sheetAria"></canvas>
+      </div>
+
+      <p class="count" id="countText">6 photos fit on this sheet</p>
+
+      <div class="toggles">
+        <label class="switch">
+          <input type="checkbox" id="cutMarksToggle" checked>
+          <span class="switch-track" aria-hidden="true"></span>
+          <span data-i18n="cutMarksToggle">Cut marks</span>
+        </label>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn btn-primary" id="printBtn" disabled data-i18n="printBtn">Print</button>
+        <button type="button" class="btn" id="sheetBtn" disabled data-i18n="sheetBtn">Download sheet</button>
+        <button type="button" class="btn" id="photoBtn" disabled data-i18n="photoBtn">Download photo</button>
+      </div>
+
+      <p class="tiny" id="sizeText">1181 x 1772 px · 300 dpi · 10 x 15 cm</p>
+      <p class="tiny" data-i18n="downloadNote">The PNG carries its 300 dpi, so a print comes out at the exact size.</p>
+    </section>
+  </div>
+
+  <section class="tips" aria-labelledby="tipsHead">
+    <h2 id="tipsHead" data-i18n="tipsTitle">Before you print</h2>
+    <p class="lede small" data-i18n="tipsIntro">This tool frames a photo. It cannot turn a poor photo into an accepted one, so start with a good one.</p>
+    <div class="tips-grid">
+      <details open>
+        <summary data-i18n="tip1t">Light and background</summary>
+        <p data-i18n="tip1b">Stand in front of a plain, light wall with no picture frames or door frames. Daylight from a window in front of you, never behind. No shadow on the face or on the wall.</p>
+      </details>
+      <details>
+        <summary data-i18n="tip2t">Face and expression</summary>
+        <p data-i18n="tip2b">Look straight into the lens, mouth closed, neutral expression, both eyes visible. Hair away from the eyebrows. No glasses for EU documents since 2015.</p>
+      </details>
+      <details>
+        <summary data-i18n="tip3t">Distance and height</summary>
+        <p data-i18n="tip3b">Ask someone to hold the phone at your eye level, about 1.5 m away, and to step back until your head and shoulders fill the frame. A selfie at arm's length distorts the face.</p>
+      </details>
+      <details>
+        <summary data-i18n="tip4t">Paper and printer</summary>
+        <p data-i18n="tip4b">Use glossy or matte photo paper at 10 x 15 cm and print at 100 percent. Turn off "fit to page". Plain office paper is not accepted.</p>
+      </details>
+      <details>
+        <summary data-i18n="tip5t">Do not retouch</summary>
+        <p data-i18n="tip5b">No smoothing, no whitened eyes, no replaced background. Retouched photos are rejected. Cropping and scaling are fine, changing the face is not.</p>
+      </details>
+      <details>
+        <summary data-i18n="tip6t">Check the current rules</summary>
+        <p data-i18n="tip6b">Rules differ by country and change over time. The authority that issues your document decides. When in doubt, ask them before you print twenty copies.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="about" id="about" aria-labelledby="aboutHead">
+    <h2 id="aboutHead" data-i18n="aboutTitle">About Photo Sheet</h2>
+    <p data-i18n="aboutBody">Photo Sheet crops one photo to the exact millimetre size a document asks for and lays it out on a printable sheet with cut marks. It runs entirely in the browser: no server, no account, no analytics, and no network request after the page loads.</p>
+    <div class="about-grid">
+      <div>
+        <h3 data-i18n="aboutRangesT">Where the numbers come from</h3>
+        <p data-i18n="aboutRanges">The guide bands follow published ICAO Doc 9303, EU Visa Code and US State Department ranges. On a 35 x 45 mm photo the head should measure 32 to 36 mm from chin to crown, with the eyes 27 to 32 mm above the bottom edge. Ranges are guidance, not a guarantee.</p>
+      </div>
+      <div>
+        <h3 data-i18n="aboutPrivacyT">What is stored</h3>
+        <p data-i18n="aboutPrivacy">The working photo lives in this tab's memory only. Reload the page and it is gone. Size, paper, language and theme are kept in localStorage, because nobody wants to choose them twice. There is nothing else.</p>
+      </div>
+      <div>
+        <h3 data-i18n="aboutLimitsT">What it does not do</h3>
+        <p data-i18n="aboutLimits">No face detection, no background removal, no AI. You place the head against the guides yourself, which is also why the result is predictable. The quality chips only report what the pixels can support.</p>
+      </div>
+      <div>
+        <h3 data-i18n="aboutOfflineT">Offline</h3>
+        <p data-i18n="aboutOffline">After the first visit a service worker keeps the page on your device, so it opens with no connection. Add it to your home screen and it behaves like an app.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="foot-inner">
+    <p class="foot-note" data-i18n="footerNote">No cookies, no analytics, no server. Built to be one file.</p>
+    <p class="foot-links">
+      <a href="https://github.com/TekiDeki/Photo-Sheet" target="_blank" rel="noopener noreferrer" data-i18n="source">Source code</a>
+      <a href="https://paypal.me/TekiDeki" target="_blank" rel="noopener noreferrer" data-i18n="support">Support the project</a>
+      <span data-i18n="licenseShort">Apache-2.0</span>
+      <span id="versionText">Version 1</span>
+    </p>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<div class="print-area" id="printArea" aria-hidden="true">
+  <img id="printImage" alt="">
+</div>
+
+<script>
+/* Photo Sheet · TekiDeki - crop and print maths
+ * SPDX-License-Identifier: Apache-2.0
+ * Copyright 2026 Kristian Mario Miskovic (TekiDeki)
+ *
+ * Pure functions only. No DOM, no storage, no network. The page and the Node
+ * test suite load exactly this file, so the numbers the browser prints are the
+ * numbers the tests check.
+ */
+(function (root, factory) {
+  if (typeof module === 'object' && module.exports) {
+    module.exports = factory();
+  } else {
+    root.PS = factory();
+  }
+}(typeof self !== 'undefined' ? self : this, function () {
+  'use strict';
+
+  var MM_PER_INCH = 25.4;
+  var DPI = 300;
+  var MAX_ZOOM = 3;
+  var MIN_ZOOM = 1;
+
+  /* Photo standards. Distances in millimetres.
+   * head: chin to crown. eye: from the bottom edge. gap: crown to top edge.
+   * Ranges come from published ICAO, EU Visa Code and US State Department
+   * guidance; the issuing authority always has the last word. */
+  var PRESETS = [
+    {
+      id: 'std35',
+      key: 'preset35',
+      w: 35,
+      h: 45,
+      headMin: 32,
+      headMax: 36,
+      eyeMin: 27,
+      eyeMax: 32,
+      gapMin: 2,
+      gapMax: 5
+    },
+    {
+      id: 'us51',
+      key: 'presetUS',
+      w: 51,
+      h: 51,
+      headMin: 25,
+      headMax: 35,
+      eyeMin: 28,
+      eyeMax: 35,
+      gapMin: 2,
+      gapMax: 6
+    },
+    {
+      id: 'ro30',
+      key: 'presetRO',
+      w: 30,
+      h: 40,
+      headMin: 28,
+      headMax: 32,
+      eyeMin: 24,
+      eyeMax: 28,
+      gapMin: 2,
+      gapMax: 5
+    }
+  ];
+
+  var SHEETS = [
+    { id: 's10x15', key: 'sheet10x15', w: 100, h: 150, short: '10 x 15 cm' },
+    { id: 's13x18', key: 'sheet13x18', w: 130, h: 180, short: '13 x 18 cm' },
+    { id: 'a4', key: 'sheetA4', w: 210, h: 297, short: 'A4' }
+  ];
+
+  function round(value, places) {
+    var factor = Math.pow(10, places || 0);
+    return Math.round(value * factor) / factor;
+  }
+
+  function mmToPx(mm, dpi) {
+    return Math.round(mm * (dpi || DPI) / MM_PER_INCH);
+  }
+
+  function pxToMm(px, dpi) {
+    return px * MM_PER_INCH / (dpi || DPI);
+  }
+
+  function clamp(value, low, high) {
+    if (value < low) return low;
+    if (value > high) return high;
+    return value;
+  }
+
+  function customPreset(widthMm, heightMm) {
+    var w = clamp(Number(widthMm) || 35, 15, 150);
+    var h = clamp(Number(heightMm) || 45, 15, 150);
+    return {
+      id: 'custom',
+      key: 'presetCustom',
+      w: w,
+      h: h,
+      headMin: round(h * 0.71, 1),
+      headMax: round(h * 0.8, 1),
+      eyeMin: round(h * 0.6, 1),
+      eyeMax: round(h * 0.71, 1),
+      gapMin: round(h * 0.044, 1),
+      gapMax: round(h * 0.111, 1)
+    };
+  }
+
+  function getPreset(id, customW, customH) {
+    for (var i = 0; i < PRESETS.length; i++) {
+      if (PRESETS[i].id === id) return PRESETS[i];
+    }
+    return customPreset(customW, customH);
+  }
+
+  function getSheet(id) {
+    for (var i = 0; i < SHEETS.length; i++) {
+      if (SHEETS[i].id === id) return SHEETS[i];
+    }
+    return SHEETS[0];
+  }
+
+  /* Three horizontal guides, in millimetres from the top edge:
+   * where the crown, the eyes and the chin should land. */
+  function guides(preset) {
+    return {
+      crown: [preset.gapMin, preset.gapMax],
+      eyes: [preset.h - preset.eyeMax, preset.h - preset.eyeMin],
+      chin: [preset.gapMin + preset.headMin, preset.gapMax + preset.headMax]
+    };
+  }
+
+  /* How many photos fit, and where. Margins and gaps in millimetres. */
+  function layout(preset, sheet, margin, gap) {
+    var m = typeof margin === 'number' ? margin : 4;
+    var g = typeof gap === 'number' ? gap : 3;
+    var usableW = sheet.w - 2 * m;
+    var usableH = sheet.h - 2 * m;
+    var cols = Math.floor((usableW + g) / (preset.w + g));
+    var rows = Math.floor((usableH + g) / (preset.h + g));
+    if (cols < 0) cols = 0;
+    if (rows < 0) rows = 0;
+    var count = cols * rows;
+    var blockW = cols > 0 ? cols * preset.w + (cols - 1) * g : 0;
+    var blockH = rows > 0 ? rows * preset.h + (rows - 1) * g : 0;
+    var x0 = (sheet.w - blockW) / 2;
+    var y0 = (sheet.h - blockH) / 2;
+    var cells = [];
+    for (var r = 0; r < rows; r++) {
+      for (var c = 0; c < cols; c++) {
+        cells.push({
+          x: round(x0 + c * (preset.w + g), 3),
+          y: round(y0 + r * (preset.h + g), 3),
+          w: preset.w,
+          h: preset.h
+        });
+      }
+    }
+    return {
+      cols: cols,
+      rows: rows,
+      count: count,
+      blockW: round(blockW, 3),
+      blockH: round(blockH, 3),
+      x0: round(x0, 3),
+      y0: round(y0, 3),
+      cells: cells,
+      margin: m,
+      gap: g
+    };
+  }
+
+  function rotatedSize(w, h, rot) {
+    var turns = ((rot % 360) + 360) % 360;
+    if (turns % 180 === 0) return { w: w, h: h };
+    return { w: h, h: w };
+  }
+
+  /* Scale that makes the photo exactly cover the frame at zoom 1. */
+  function coverScale(imgW, imgH, frameW, frameH, rot) {
+    var size = rotatedSize(imgW, imgH, rot);
+    if (!size.w || !size.h) return 1;
+    return Math.max(frameW / size.w, frameH / size.h);
+  }
+
+  function clampZoom(zoom) {
+    return clamp(Number(zoom) || 1, MIN_ZOOM, MAX_ZOOM);
+  }
+
+  function normalizeRot(rot) {
+    return ((Number(rot) || 0) % 360 + 360) % 360;
+  }
+
+  /* Offsets are stored as a fraction of the frame, so a preview and a 413 px
+   * export land on the same part of the photo. */
+  function clampOffset(tf, imgW, imgH, frameW, frameH) {
+    var zoom = clampZoom(tf.zoom);
+    var scale = coverScale(imgW, imgH, frameW, frameH, tf.rot) * zoom;
+    var size = rotatedSize(imgW, imgH, tf.rot);
+    var slackX = Math.max(0, (size.w * scale - frameW) / 2) / frameW;
+    var slackY = Math.max(0, (size.h * scale - frameH) / 2) / frameH;
+    var x = clamp(Number(tf.ox) || 0, -slackX, slackX);
+    var y = clamp(Number(tf.oy) || 0, -slackY, slackY);
+    return { x: x === 0 ? 0 : x, y: y === 0 ? 0 : y };
+  }
+
+  function defaultTransform() {
+    return { zoom: 1, ox: 0, oy: 0, rot: 0, flip: false };
+  }
+
+  function sanitizeTransform(input, imgW, imgH, frameW, frameH) {
+    var tf = input || {};
+    var out = {
+      zoom: clampZoom(tf.zoom),
+      ox: Number(tf.ox) || 0,
+      oy: Number(tf.oy) || 0,
+      rot: normalizeRot(tf.rot),
+      flip: !!tf.flip
+    };
+    var clamped = clampOffset(out, imgW, imgH, frameW, frameH);
+    out.ox = clamped.x === 0 ? 0 : clamped.x;
+    out.oy = clamped.y === 0 ? 0 : clamped.y;
+    return out;
+  }
+
+  /* Draw one cell. The frame is in device pixels and the context origin must
+   * already sit at the cell's top left corner. */
+  function drawFrame(ctx, image, frameW, frameH, tf) {
+    var zoom = clampZoom(tf.zoom);
+    var scale = coverScale(image.width, image.height, frameW, frameH, tf.rot) * zoom;
+    ctx.save();
+    ctx.translate(frameW / 2 + (Number(tf.ox) || 0) * frameW,
+                  frameH / 2 + (Number(tf.oy) || 0) * frameH);
+    ctx.rotate(normalizeRot(tf.rot) * Math.PI / 180);
+    ctx.scale(tf.flip ? -scale : scale, scale);
+    ctx.drawImage(image, -image.width / 2, -image.height / 2);
+    ctx.restore();
+  }
+
+  /* Is there enough source detail for the exported print? */
+  function resolution(imgW, imgH, frameW, frameH, zoom, rot) {
+    var scale = coverScale(imgW, imgH, frameW, frameH, rot) * clampZoom(zoom);
+    /* Source pixels available for every printed pixel. Below one means the
+     * printer would be inventing detail. */
+    var perOutput = 1 / scale;
+    var state = perOutput >= 0.98 ? 'good' : perOutput >= 0.67 ? 'warn' : 'bad';
+    return {
+      perOutput: round(perOutput, 2),
+      state: state,
+      megapixels: round(imgW * imgH / 1000000, 1)
+    };
+  }
+
+  /* ---- small statistics helpers used by the quality checks ---- */
+
+  function stats(values) {
+    var n = values.length;
+    if (!n) return { mean: 0, sd: 0, min: 0, max: 0 };
+    var sum = 0, i;
+    for (i = 0; i < n; i++) sum += values[i];
+    var mean = sum / n;
+    var acc = 0;
+    for (i = 0; i < n; i++) {
+      var d = values[i] - mean;
+      acc += d * d;
+    }
+    var min = values[0], max = values[0];
+    for (i = 1; i < n; i++) {
+      if (values[i] < min) min = values[i];
+      if (values[i] > max) max = values[i];
+    }
+    return { mean: mean, sd: Math.sqrt(acc / n), min: min, max: max };
+  }
+
+  /* Uniform background test, one sample set per corner of the crop.
+   * Comparing the corners is robust: a strand of hair in one corner is normal,
+   * while a wall that is bright on one side and grey on the other is not. */
+  function background(regions) {
+    if (!regions || !regions.length) return { mean: 0, score: 0, spread: 0, state: 'warn', light: false };
+    var means = [];
+    var worst = 0;
+    var all = 0;
+    var count = 0;
+    for (var r = 0; r < regions.length; r++) {
+      var pixels = regions[r] || [];
+      if (!pixels.length) continue;
+      var lum = [];
+      for (var i = 0; i < pixels.length; i++) {
+        var p = pixels[i];
+        lum.push(0.2126 * p[0] + 0.7152 * p[1] + 0.0722 * p[2]);
+      }
+      var s = stats(lum);
+      means.push(s.mean);
+      if (s.sd > worst) worst = s.sd;
+      all += s.mean * lum.length;
+      count += lum.length;
+    }
+    if (!means.length) return { mean: 0, score: 0, spread: 0, state: 'warn', light: false };
+    var spread = Math.max.apply(null, means) - Math.min.apply(null, means);
+    var mean = all / count;
+    var state = 'good';
+    if (worst > 30 || spread > 42) state = 'bad';
+    else if (worst > 18 || spread > 24) state = 'warn';
+    return {
+      mean: round(mean, 0),
+      score: round(worst, 1),
+      spread: round(spread, 1),
+      state: state,
+      light: mean >= 150
+    };
+  }
+
+  /* Variance of the Laplacian on a greyscale crop, a cheap sharpness hint.
+   * gray: flat array of 0..255 values, width and height included. */
+  function sharpness(gray, width, height) {
+    if (!width || !height || gray.length < width * height) return { score: 0, state: 'warn' };
+    var total = 0, total2 = 0, count = 0;
+    for (var y = 1; y < height - 1; y++) {
+      for (var x = 1; x < width - 1; x++) {
+        var i = y * width + x;
+        var lap = 4 * gray[i] - gray[i - 1] - gray[i + 1] - gray[i - width] - gray[i + width];
+        total += lap;
+        total2 += lap * lap;
+        count++;
+      }
+    }
+    if (!count) return { score: 0, state: 'warn' };
+    var mean = total / count;
+    var variance = total2 / count - mean * mean;
+    var state = variance >= 120 ? 'good' : variance >= 45 ? 'warn' : 'bad';
+    return { score: round(variance, 1), state: state };
+  }
+
+  /* ---- PNG resolution metadata ---- */
+
+  var CRC_TABLE = null;
+
+  function crcTable() {
+    if (CRC_TABLE) return CRC_TABLE;
+    var table = new Uint32Array(256);
+    for (var n = 0; n < 256; n++) {
+      var c = n;
+      for (var k = 0; k < 8; k++) {
+        c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
+      }
+      table[n] = c >>> 0;
+    }
+    CRC_TABLE = table;
+    return table;
+  }
+
+  function crc32(bytes) {
+    var table = crcTable();
+    var crc = 0xFFFFFFFF;
+    for (var i = 0; i < bytes.length; i++) {
+      crc = table[(crc ^ bytes[i]) & 0xFF] ^ (crc >>> 8);
+    }
+    return (crc ^ 0xFFFFFFFF) >>> 0;
+  }
+
+  function u32(value) {
+    return [value >>> 24 & 255, value >>> 16 & 255, value >>> 8 & 255, value & 255];
+  }
+
+  /* Insert a pHYs chunk right after IHDR so viewers and printers know the
+   * physical size of the PNG. Without it a 413 x 531 file is just pixels. */
+  function pngWithDpi(bytes, dpi) {
+    if (!bytes || bytes.length < 33) return bytes;
+    var signature = [137, 80, 78, 71, 13, 10, 26, 10];
+    for (var i = 0; i < 8; i++) {
+      if (bytes[i] !== signature[i]) return bytes;
+    }
+    var ppm = Math.round((dpi || DPI) / 0.0254);
+    var type = [112, 72, 89, 115]; /* pHYs */
+    var data = u32(ppm).concat(u32(ppm)).concat([1]);
+    var chunk = u32(9).concat(type).concat(data);
+    var crc = crc32(new Uint8Array(chunk.slice(4)));
+    chunk = chunk.concat(u32(crc));
+    var head = Array.prototype.slice.call(bytes, 0, 33);
+    var tail = Array.prototype.slice.call(bytes, 33);
+    return new Uint8Array(head.concat(chunk, tail));
+  }
+
+  function formatBytes(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return round(bytes / 1024, 0) + ' kB';
+    return round(bytes / (1024 * 1024), 1) + ' MB';
+  }
+
+  return {
+    MM_PER_INCH: MM_PER_INCH,
+    DPI: DPI,
+    MIN_ZOOM: MIN_ZOOM,
+    MAX_ZOOM: MAX_ZOOM,
+    PRESETS: PRESETS,
+    SHEETS: SHEETS,
+    mmToPx: mmToPx,
+    pxToMm: pxToMm,
+    clamp: clamp,
+    round: round,
+    getPreset: getPreset,
+    getSheet: getSheet,
+    customPreset: customPreset,
+    guides: guides,
+    layout: layout,
+    rotatedSize: rotatedSize,
+    coverScale: coverScale,
+    clampZoom: clampZoom,
+    clampOffset: clampOffset,
+    normalizeRot: normalizeRot,
+    defaultTransform: defaultTransform,
+    sanitizeTransform: sanitizeTransform,
+    drawFrame: drawFrame,
+    resolution: resolution,
+    stats: stats,
+    background: background,
+    sharpness: sharpness,
+    crc32: crc32,
+    pngWithDpi: pngWithDpi,
+    formatBytes: formatBytes
+  };
+}));
+</script>
+<script>
+/* Generated by build.py from src/i18n/locales.json. Do not edit. */
+window.TD_LOCALES = {
+  "en": {"aboutBody": "Photo Sheet crops one photo to the exact millimetre size a document asks for and lays it out on a printable sheet with cut marks. It runs entirely in the browser: no server, no account, no analytics, and your photo is never uploaded.", "aboutLimits": "No face detection, no background removal, no model of any kind. You place the head against the guides yourself, which is also why the result is predictable. The quality chips only report what the pixels can support.", "aboutLimitsT": "What it does not do", "aboutOffline": "After the first visit a service worker keeps the page on your device, so it opens with no connection. Add it to your home screen and it behaves like an app.", "aboutOfflineT": "Offline", "aboutPrivacy": "The working photo lives in this tab's memory only. Reload the page and it is gone. Size, paper, language and theme are kept in localStorage, because nobody wants to choose them twice. There is nothing else.", "aboutPrivacyT": "What is stored", "aboutRanges": "The guide bands follow published ICAO Doc 9303, EU Visa Code and US State Department ranges. On a 35 x 45 mm photo the head should measure 32 to 36 mm from chin to crown, with the eyes 27 to 32 mm above the bottom edge. Ranges are guidance, not a guarantee.", "aboutRangesT": "Where the numbers come from", "aboutTitle": "About Photo Sheet", "bgBad": "Edges not plain", "bgDark": "Background looks dark", "bgGood": "Background even", "bgTipBad": "The top corners should be plain wall. A busy background, a shadow, or a crop that cuts into the hair shows up here.", "bgTipGood": "The edges look like a plain, evenly lit surface.", "bgWarn": "Background uneven", "claim300": "300 dpi output", "claimNoAccount": "No account", "claimNoUpload": "No upload", "claimPaper": "Ready to cut", "countMany": "{count} photos fit on this sheet", "countNone": "This size does not fit on the chosen paper.", "countOne": "1 photo fits on this sheet", "customH": "Height (mm)", "customW": "Width (mm)", "cutMarksToggle": "Cut marks", "downloadNote": "The PNG carries its 300 dpi, so a print comes out at the exact size.", "dropHint": "or drop a file here. JPG, PNG or WebP, up to 25 MB.", "dropPrivacy": "The photo stays in this tab. It is never uploaded, stored or sent anywhere.", "dropTitle": "Choose a photo", "emptyCell": "No photo", "errLoad": "The photo could not be opened.", "errSize": "That file is larger than 25 MB.", "errType": "That file is not an image. Use JPG, PNG or WebP.", "fileAria": "Choose a photo file", "flipBtn": "Flip", "footerNote": "No cookies, no analytics, no server. Built to be one file.", "guideChin": "chin", "guideCrown": "crown", "guideEyes": "eyes", "guidesToggle": "Guides", "h1": "Passport photos, printed at home", "hintDrag": "Drag the photo to move it. Arrow keys nudge, Shift moves further.", "language": "Interface language", "lede": "Choose the size your document asks for, line the face up with the guides, then print a whole sheet on photo paper. The photo never leaves this device.", "licenseShort": "Apache-2.0", "nothingToUndo": "Nothing to undo", "photoBtn": "Download photo", "pickBtn": "Choose photo", "preset35": "35 x 45 mm", "preset35Note": "Schengen, Serbia, Romania, most of Europe", "presetCustom": "Custom size", "presetCustomNote": "Enter the size your authority asks for.", "presetLabel": "Photo size", "presetRO": "30 x 40 mm", "presetRONote": "Romanian ID card, 3 x 4 cm", "presetUS": "51 x 51 mm", "presetUSNote": "United States, 2 x 2 inches", "printBtn": "Print", "removeBtn": "Remove", "replaceBtn": "Replace", "resBad": "Too small for print", "resGood": "Full resolution", "resTipBad": "The crop is enlarged a lot. Use a bigger photo or zoom out.", "resTipGood": "This crop has enough pixels for 300 dpi.", "resTipWarn": "The crop is slightly enlarged. Printable, a little softer.", "resWarn": "Slightly upscaled", "resetBtn": "Reset crop", "rotateBtn": "Rotate 90", "sharpBad": "May be blurry", "sharpGood": "Sharp", "sharpTipBad": "The crop looks soft. Hold still and use more light.", "sharpTipGood": "Edges in the crop look crisp.", "sharpWarn": "Slightly soft", "sheet10x15": "10 x 15 cm (4 x 6 in)", "sheet13x18": "13 x 18 cm (5 x 7 in)", "sheetA4": "A4 (21 x 29.7 cm)", "sheetAria": "Preview of the printed sheet", "sheetBtn": "Download sheet", "sheetLabel": "Paper", "sizeText": "{w} x {h} px · 300 dpi · {sheet}", "skipToContent": "Skip to content", "source": "Source code", "stageAria": "Crop preview. Drag to move the photo, arrow keys to nudge.", "step1": "Your photo", "step1Sub": "The file is read here, in your browser. Nothing is sent.", "step2": "Your sheet", "support": "Support the project", "tagline": "Passport photos, printed at home.", "theme": "Theme", "themeToggle": "Switch light or dark theme", "tip1b": "Stand in front of a plain, light wall with no frames or objects. Daylight from a window in front of you, never behind. No shadow on the face or on the wall.", "tip1t": "Light and background", "tip2b": "Look straight into the lens, mouth closed, neutral expression, both eyes visible. Hair away from the eyebrows. No glasses for EU documents since 2015.", "tip2t": "Face and expression", "tip3b": "Ask someone to hold the phone at your eye level, about 1.5 m away, until your head and shoulders fill the frame. A selfie at arm's length distorts the face.", "tip3t": "Distance and height", "tip4b": "Use glossy or matte photo paper at 10 x 15 cm and print at 100 percent. Turn off fit to page. Plain office paper is not accepted.", "tip4t": "Paper and printer", "tip5b": "No smoothing, no whitened eyes, no replaced background. Retouched photos are rejected. Cropping and scaling are fine, changing the face is not.", "tip5t": "Do not retouch", "tip6b": "Rules differ by country and change over time. The authority that issues your document decides. When in doubt, ask them before printing twenty copies.", "tip6t": "Check the current rules", "tipsIntro": "This tool frames a photo. It cannot turn a poor photo into an accepted one, so start with a good one.", "tipsTitle": "Before you print", "toastPhoto": "Photo saved", "toastPrint": "Preparing the sheet for print", "toastReady": "Photo loaded", "toastRemoved": "Photo removed", "toastSheet": "Sheet saved", "toastUndo": "Crop undone", "undo": "Undo", "undoTip": "Undo the last crop change", "versionText": "Version {version}", "zoomInAria": "Zoom in", "zoomLabel": "Zoom", "zoomOutAria": "Zoom out"},
+  "ro": {"aboutBody": "Photo Sheet decupează o fotografie la dimensiunea exactă cerută de document și o așază pe o coală printabilă, cu linii de tăiere. Rulează complet în browser: fără server, fără cont, fără analytics, iar fotografia nu este urcată niciodată.", "aboutLimits": "Fără detectarea feței, fără eliminarea fundalului, fără modele. Tu așezi capul în ghidaje, iar de aceea rezultatul este previzibil. Etichetele de calitate raportează doar ce pot susține pixelii.", "aboutLimitsT": "Ce nu face", "aboutOffline": "După prima vizită, un service worker păstrează pagina pe dispozitiv, așa că se deschide fără conexiune. Adaugă-o pe ecranul principal și se comportă ca o aplicație.", "aboutOfflineT": "Offline", "aboutPrivacy": "Fotografia de lucru stă doar în memoria acestui tab. Reîncarci pagina și dispare. Dimensiunea, hârtia, limba și tema rămân în localStorage, pentru că nimeni nu vrea să le aleagă de două ori. Nimic altceva.", "aboutPrivacyT": "Ce se salvează", "aboutRanges": "Benzile de ghidaj urmează intervalele publicate în ICAO Doc 9303, Codul de Vize al UE și ghidurile Departamentului de Stat al SUA. La o fotografie de 35 x 45 mm, capul ar trebui să aibă între 32 și 36 mm de la bărbie la creștet, cu ochii la 27 până la 32 mm de marginea de jos. Intervalele sunt orientative, nu o garanție.", "aboutRangesT": "De unde vin cifrele", "aboutTitle": "Despre Photo Sheet", "bgBad": "Marginile nu sunt simple", "bgDark": "Fundalul pare închis", "bgGood": "Fundal uniform", "bgTipBad": "Colțurile de sus ar trebui să fie perete simplu. Un fundal aglomerat, o umbră sau un decupaj care intră în păr apar aici.", "bgTipGood": "Marginile arată ca o suprafață simplă, luminată uniform.", "bgWarn": "Fundal neuniform", "claim300": "Ieșire la 300 dpi", "claimNoAccount": "Fără cont", "claimNoUpload": "Fără upload", "claimPaper": "Gata de tăiat", "countMany": "Pe această coală încap {count} fotografii", "countNone": "Această dimensiune nu încape pe hârtia aleasă.", "countOne": "Pe această coală încape 1 fotografie", "customH": "Înălțime (mm)", "customW": "Lățime (mm)", "cutMarksToggle": "Linii de tăiere", "downloadNote": "PNG-ul are 300 dpi înscriși, așa că printul iese exact la dimensiunea cerută.", "dropHint": "sau trage fișierul aici. JPG, PNG sau WebP, până la 25 MB.", "dropPrivacy": "Fotografia rămâne în acest tab. Nu este urcată, salvată sau trimisă nicăieri.", "dropTitle": "Alege o fotografie", "emptyCell": "Fără fotografie", "errLoad": "Fotografia nu a putut fi deschisă.", "errSize": "Fișierul are mai mult de 25 MB.", "errType": "Fișierul nu este o imagine. Folosește JPG, PNG sau WebP.", "fileAria": "Alege un fișier fotografie", "flipBtn": "Oglindește", "footerNote": "Fără cookie-uri, fără analytics, fără server. Construit să fie un singur fișier.", "guideChin": "bărbie", "guideCrown": "creștet", "guideEyes": "ochi", "guidesToggle": "Ghidaje", "h1": "Fotografii pentru acte, printate acasă", "hintDrag": "Trage fotografia ca să o muți. Tastele săgeți mută fin, Shift mută mai mult.", "language": "Limba interfeței", "lede": "Alege dimensiunea cerută de document, aliniază fața cu ghidajele și printează o coală întreagă pe hârtie foto. Fotografia nu pleacă niciodată de pe acest dispozitiv.", "licenseShort": "Apache-2.0", "nothingToUndo": "Nu e nimic de anulat", "photoBtn": "Descarcă fotografia", "pickBtn": "Alege fotografia", "preset35": "35 x 45 mm", "preset35Note": "Schengen, Serbia, România, cea mai mare parte a Europei", "presetCustom": "Dimensiune personalizată", "presetCustomNote": "Introdu dimensiunea cerută de autoritatea ta.", "presetLabel": "Dimensiunea fotografiei", "presetRO": "30 x 40 mm", "presetRONote": "Carte de identitate românească, 3 x 4 cm", "presetUS": "51 x 51 mm", "presetUSNote": "Statele Unite, 2 x 2 inci", "printBtn": "Printează", "removeBtn": "Elimină", "replaceBtn": "Înlocuiește", "resBad": "Prea mică pentru print", "resGood": "Rezoluție completă", "resTipBad": "Decupajul este mult mărit. Folosește o fotografie mai mare sau micșorează zoomul.", "resTipGood": "Decupajul are destui pixeli pentru 300 dpi.", "resTipWarn": "Decupajul este puțin mărit. Se poate printa, dar e mai moale.", "resWarn": "Ușor mărită", "resetBtn": "Resetează decupajul", "rotateBtn": "Rotește 90", "sharpBad": "Posibil neclară", "sharpGood": "Clară", "sharpTipBad": "Decupajul pare moale. Stai nemișcat și folosește mai multă lumină.", "sharpTipGood": "Marginile din decupaj arată clar.", "sharpWarn": "Puțin moale", "sheet10x15": "10 x 15 cm (4 x 6 in)", "sheet13x18": "13 x 18 cm (5 x 7 in)", "sheetA4": "A4 (21 x 29,7 cm)", "sheetAria": "Previzualizarea colii de print", "sheetBtn": "Descarcă coala", "sheetLabel": "Hârtie", "sizeText": "{w} x {h} px · 300 dpi · {sheet}", "skipToContent": "Sari la conținut", "source": "Cod sursă", "stageAria": "Previzualizarea decupajului. Trage pentru a muta fotografia, tastele săgeți mută fin.", "step1": "Fotografia ta", "step1Sub": "Fișierul este citit aici, în browser. Nimic nu este trimis.", "step2": "Coala ta", "support": "Susține proiectul", "tagline": "Fotografii pentru acte, printate acasă.", "theme": "Temă", "themeToggle": "Comută tema deschisă sau închisă", "tip1b": "Stai în fața unui perete simplu și luminos, fără rame sau obiecte. Lumină de zi dintr-o fereastră din față, niciodată din spate. Fără umbre pe față sau pe perete.", "tip1t": "Lumină și fundal", "tip2b": "Privește drept în obiectiv, gura închisă, expresie neutră, ambii ochi vizibili. Părul lăsat departe de sprâncene. Fără ochelari pentru documentele UE din 2015.", "tip2t": "Față și expresie", "tip3b": "Roagă pe cineva să țină telefonul la nivelul ochilor, la aproximativ 1,5 m, până când capul și umerii umplu cadrul. Un selfie la lungimea brațului deformează fața.", "tip3t": "Distanță și înălțime", "tip4b": "Folosește hârtie foto lucioasă sau mată de 10 x 15 cm și printează la 100 la sută. Oprește opțiunea de potrivire la pagină. Hârtia simplă de birou nu este acceptată.", "tip4t": "Hârtie și imprimantă", "tip5b": "Fără netezire, fără albirea ochilor, fără fundal înlocuit. Fotografiile retușate sunt respinse. Decupajul și scalarea sunt permise, schimbarea feței nu.", "tip5t": "Fără retușuri", "tip6b": "Regulile diferă de la țară la țară și se schimbă în timp. Autoritatea care emite documentul decide. La dubii, întreabă înainte să printezi douăzeci de copii.", "tip6t": "Verifică regulile actuale", "tipsIntro": "Unealta încadrează o fotografie. Nu poate transforma o poză slabă într-una acceptată, deci pornește de la una bună.", "tipsTitle": "Înainte de print", "toastPhoto": "Fotografia a fost salvată", "toastPrint": "Se pregătește coala pentru print", "toastReady": "Fotografie încărcată", "toastRemoved": "Fotografie eliminată", "toastSheet": "Coala a fost salvată", "toastUndo": "Decupaj anulat", "undo": "Anulează", "undoTip": "Anulează ultima modificare a decupajului", "versionText": "Versiunea {version}", "zoomInAria": "Mărește", "zoomLabel": "Zoom", "zoomOutAria": "Micșorează"},
+  "sr-latn": {"aboutBody": "Photo Sheet iseca jednu fotografiju na tačnu veličinu u milimetrima koju dokument traži i slaže je na tabak spreman za štampu, sa linijama rezanja. Radi potpuno u pregledaču: bez servera, bez naloga, bez analitike, i fotografija se nikada ne otprema.", "aboutLimits": "Bez prepoznavanja lica, bez uklanjanja pozadine, bez modela. Sam postavljaš glavu u vodiče, i zato je rezultat predvidljiv. Oznake kvaliteta samo javljaju šta pikseli mogu da podrže.", "aboutLimitsT": "Šta ne radi", "aboutOffline": "Posle prve posete service worker čuva stranicu na uređaju, pa se otvara i bez veze. Dodaj je na početni ekran i ponaša se kao aplikacija.", "aboutOfflineT": "Bez veze", "aboutPrivacy": "Radna fotografija živi samo u memoriji ovog taba. Osvježi stranicu i nestaje. Veličina, papir, jezik i tema ostaju u localStorage, jer niko ne želi da ih bira dva puta. Ništa drugo.", "aboutPrivacyT": "Šta se čuva", "aboutRanges": "Trake vodiča prate objavljene raspone iz ICAO Doc 9303, Viznog kodeksa EU i uputstava Stejt departmenta. Na fotografiji 35 x 45 mm glava treba da bude 32 do 36 mm od brade do temena, a oči 27 do 32 mm od donje ivice. Rasponi su smernica, ne garancija.", "aboutRangesT": "Odakle dolaze brojevi", "aboutTitle": "O alatki Photo Sheet", "bgBad": "Ivice nisu čiste", "bgDark": "Pozadina deluje tamno", "bgGood": "Pozadina ujednačena", "bgTipBad": "Gornji uglovi treba da budu ravan zid. Pretrpana pozadina, senka ili isečak koji ulazi u kosu pokazaće se ovde.", "bgTipGood": "Ivice izgledaju kao ravna, ravnomerno osvetljena površina.", "bgWarn": "Pozadina neujednačena", "claim300": "Izlaz na 300 dpi", "claimNoAccount": "Bez naloga", "claimNoUpload": "Bez otpremanja", "claimPaper": "Spremno za rezanje", "countMany": "Na ovaj tabak staje {count} fotografija", "countNone": "Ova veličina ne staje na izabrani papir.", "countOne": "Na ovaj tabak staje 1 fotografija", "customH": "Visina (mm)", "customW": "Širina (mm)", "cutMarksToggle": "Linije rezanja", "downloadNote": "PNG nosi svojih 300 dpi, pa štampa izlazi tačno na traženu veličinu.", "dropHint": "ili je prevuci ovde. JPG, PNG ili WebP, do 25 MB.", "dropPrivacy": "Fotografija ostaje u ovom tabu. Nikada se ne otprema, ne čuva i ne šalje nigde.", "dropTitle": "Izaberi fotografiju", "emptyCell": "Bez fotografije", "errLoad": "Fotografija nije mogla da se otvori.", "errSize": "Datoteka je veća od 25 MB.", "errType": "Ta datoteka nije slika. Koristi JPG, PNG ili WebP.", "fileAria": "Izaberi datoteku sa fotografijom", "flipBtn": "Zrcali", "footerNote": "Bez kolačića, bez analitike, bez servera. Napravljeno da bude jedna datoteka.", "guideChin": "brada", "guideCrown": "teme", "guideEyes": "oči", "guidesToggle": "Vodiči", "h1": "Fotografije za dokumenta, štampane kod kuće", "hintDrag": "Prevuci fotografiju da je pomeriš. Strelice pomeraju fino, Shift pomera više.", "language": "Jezik interfejsa", "lede": "Izaberi veličinu koju tvoj dokument traži, poravnaj lice sa vodičima i odštampaj ceo tabak na foto papiru. Fotografija nikada ne napušta ovaj uređaj.", "licenseShort": "Apache-2.0", "nothingToUndo": "Nema šta da se poništi", "photoBtn": "Preuzmi fotografiju", "pickBtn": "Izaberi fotografiju", "preset35": "35 x 45 mm", "preset35Note": "Šengen, Srbija, Rumunija, veći deo Evrope", "presetCustom": "Prilagođena veličina", "presetCustomNote": "Unesi veličinu koju tvoj organ traži.", "presetLabel": "Veličina fotografije", "presetRO": "30 x 40 mm", "presetRONote": "Rumunska lična karta, 3 x 4 cm", "presetUS": "51 x 51 mm", "presetUSNote": "Sjedinjene Države, 2 x 2 inča", "printBtn": "Štampaj", "removeBtn": "Ukloni", "replaceBtn": "Zameni", "resBad": "Premalo za štampu", "resGood": "Puna rezolucija", "resTipBad": "Isečak je mnogo uvećan. Koristi veću fotografiju ili smanji uvećanje.", "resTipGood": "Isečak ima dovoljno piksela za 300 dpi.", "resTipWarn": "Isečak je malo uvećan. Može da se štampa, ali je mekši.", "resWarn": "Malo uvećano", "resetBtn": "Poništi isecanje", "rotateBtn": "Rotiraj 90", "sharpBad": "Možda mutna", "sharpGood": "Oštra", "sharpTipBad": "Isečak deluje mekano. Stani mirno i koristi više svetla.", "sharpTipGood": "Ivice u isečku izgledaju oštro.", "sharpWarn": "Malo mekša", "sheet10x15": "10 x 15 cm (4 x 6 inča)", "sheet13x18": "13 x 18 cm (5 x 7 inča)", "sheetA4": "A4 (21 x 29,7 cm)", "sheetAria": "Pregled tabaka za štampu", "sheetBtn": "Preuzmi tabak", "sheetLabel": "Papir", "sizeText": "{w} x {h} px · 300 dpi · {sheet}", "skipToContent": "Pređi na sadržaj", "source": "Izvorni kod", "stageAria": "Pregled isečka. Prevuci da pomeriš fotografiju, strelice pomeraju fino.", "step1": "Tvoja fotografija", "step1Sub": "Datoteka se čita ovde, u pregledaču. Ništa se ne šalje.", "step2": "Tvoj tabak", "support": "Podrži projekat", "tagline": "Fotografije za dokumenta, štampane kod kuće.", "theme": "Tema", "themeToggle": "Prebaci svetlu ili tamnu temu", "tip1b": "Stani ispred ravnog, svetlog zida bez ramova i predmeta. Dnevno svetlo kroz prozor ispred tebe, nikada iza. Bez senke na licu ili na zidu.", "tip1t": "Svetlo i pozadina", "tip2b": "Gledaj pravo u objektiv, usta zatvorena, neutralan izraz, oba oka vidljiva. Kosa sklonjena sa obrva. Bez naočara za dokumente EU od 2015.", "tip2t": "Lice i izraz", "tip3b": "Zamoli nekoga da drži telefon u visini tvojih očiju, oko 1,5 m dalje, dok glava i ramena ne ispune kadar. Selfi na dužini ruke iskrivljuje lice.", "tip3t": "Rastojanje i visina", "tip4b": "Koristi sjajni ili mat foto papir od 10 x 15 cm i štampaj na 100 posto. Isključi prilagođavanje stranici. Običan kancelarijski papir se ne prihvata.", "tip4t": "Papir i štampač", "tip5b": "Bez zaglađivanja, bez beljenja očiju, bez zamenjene pozadine. Retuširane fotografije se odbijaju. Isecanje i skaliranje su u redu, menjanje lica nije.", "tip5t": "Bez retuša", "tip6b": "Pravila se razlikuju po zemljama i menjaju se. Organ koji izdaje dokument odlučuje. Kad nisi siguran, pitaj pre nego što odštampaš dvadeset kopija.", "tip6t": "Proveri važeća pravila", "tipsIntro": "Ova alatka uokviruje fotografiju. Ne može lošu sliku pretvoriti u prihvaćenu, zato kreni od dobre.", "tipsTitle": "Pre štampe", "toastPhoto": "Fotografija je sačuvana", "toastPrint": "Priprema tabaka za štampu", "toastReady": "Fotografija je učitana", "toastRemoved": "Fotografija je uklonjena", "toastSheet": "Tabak je sačuvan", "toastUndo": "Isecanje je poništeno", "undo": "Poništi", "undoTip": "Poništi poslednju izmenu isecanja", "versionText": "Verzija {version}", "zoomInAria": "Povećaj uvećanje", "zoomLabel": "Uvećanje", "zoomOutAria": "Smanji uvećanje"},
+  "sr-cyrl": {"aboutBody": "Photo Sheet исеца једну фотографију на тачну величину у милиметрима коју документ тражи и слаже је на табак спреман за штампу, са линијама резања. Ради потпуно у прегледачу: без сервера, без налога, без аналитике, и фотографија се никада не отпрема.", "aboutLimits": "Без препознавања лица, без уклањања позадине, без модела. Сам постављаш главу у водиче, и зато је резултат предвидљив. Ознаке квалитета само јављају шта пиксели могу да подрже.", "aboutLimitsT": "Шта не ради", "aboutOffline": "После прве посете сервице wоркер чува страницу на уређају, па се отвара и без везе. Додај је на почетни екран и понаша се као апликација.", "aboutOfflineT": "Без везе", "aboutPrivacy": "Радна фотографија живи само у меморији овог таба. Освјежи страницу и нестаје. Величина, папир, језик и тема остају у localStorage, јер нико не жели да их бира два пута. Ништа друго.", "aboutPrivacyT": "Шта се чува", "aboutRanges": "Траке водича прате објављене распоне из ICAO Doc 9303, Визног кодекса EU и упутстава Стејт департмента. На фотографији 35 x 45 мм глава треба да буде 32 до 36 мм од браде до темена, а очи 27 до 32 мм од доње ивице. Распони су смерница, не гаранција.", "aboutRangesT": "Одакле долазе бројеви", "aboutTitle": "О алатки Photo Sheet", "bgBad": "Ивице нису чисте", "bgDark": "Позадина делује тамно", "bgGood": "Позадина уједначена", "bgTipBad": "Горњи углови треба да буду раван зид. Претрпана позадина, сенка или исечак који улази у косу показаће се овде.", "bgTipGood": "Ивице изгледају као равна, равномерно осветљена површина.", "bgWarn": "Позадина неуједначена", "claim300": "Излаз на 300 dpi", "claimNoAccount": "Без налога", "claimNoUpload": "Без отпремања", "claimPaper": "Спремно за резање", "countMany": "На овај табак стаје {count} фотографија", "countNone": "Ова величина не стаје на изабрани папир.", "countOne": "На овај табак стаје 1 фотографија", "customH": "Висина (мм)", "customW": "Ширина (мм)", "cutMarksToggle": "Линије резања", "downloadNote": "PNG носи својих 300 dpi, па штампа излази тачно на тражену величину.", "dropHint": "или је превуци овде. JPG, PNG или WebP, до 25 MB.", "dropPrivacy": "Фотографија остаје у овом табу. Никада се не отпрема, не чува и не шаље нигде.", "dropTitle": "Изабери фотографију", "emptyCell": "Без фотографије", "errLoad": "Фотографија није могла да се отвори.", "errSize": "Датотека је већа од 25 MB.", "errType": "Та датотека није слика. Користи JPG, PNG или WebP.", "fileAria": "Изабери датотеку са фотографијом", "flipBtn": "Зрцали", "footerNote": "Без колачића, без аналитике, без сервера. Направљено да буде једна датотека.", "guideChin": "брада", "guideCrown": "теме", "guideEyes": "очи", "guidesToggle": "Водичи", "h1": "Фотографије за документа, штампане код куће", "hintDrag": "Превуци фотографију да је помериш. Стрелице померају фино, Shift помера више.", "language": "Језик интерфејса", "lede": "Изабери величину коју твој документ тражи, поравнај лице са водичима и одштампај цео табак на фото папиру. Фотографија никада не напушта овај уређај.", "licenseShort": "Apache-2.0", "nothingToUndo": "Нема шта да се поништи", "photoBtn": "Преузми фотографију", "pickBtn": "Изабери фотографију", "preset35": "35 x 45 мм", "preset35Note": "Шенген, Србија, Румунија, већи део Европе", "presetCustom": "Прилагођена величина", "presetCustomNote": "Унеси величину коју твој орган тражи.", "presetLabel": "Величина фотографије", "presetRO": "30 x 40 мм", "presetRONote": "Румунска лична карта, 3 x 4 цм", "presetUS": "51 x 51 мм", "presetUSNote": "Сједињене Државе, 2 x 2 инча", "printBtn": "Штампај", "removeBtn": "Уклони", "replaceBtn": "Замени", "resBad": "Премало за штампу", "resGood": "Пуна резолуција", "resTipBad": "Исечак је много увећан. Користи већу фотографију или смањи увећање.", "resTipGood": "Исечак има довољно пиксела за 300 dpi.", "resTipWarn": "Исечак је мало увећан. Може да се штампа, али је мекши.", "resWarn": "Мало увећано", "resetBtn": "Поништи исецање", "rotateBtn": "Ротирај 90", "sharpBad": "Можда мутна", "sharpGood": "Оштра", "sharpTipBad": "Исечак делује мекано. Стани мирно и користи више светла.", "sharpTipGood": "Ивице у исечку изгледају оштро.", "sharpWarn": "Мало мекша", "sheet10x15": "10 x 15 цм (4 x 6 инча)", "sheet13x18": "13 x 18 цм (5 x 7 инча)", "sheetA4": "A4 (21 x 29,7 цм)", "sheetAria": "Преглед табака за штампу", "sheetBtn": "Преузми табак", "sheetLabel": "Папир", "sizeText": "{w} x {h} px · 300 dpi · {sheet}", "skipToContent": "Пређи на садржај", "source": "Изворни код", "stageAria": "Преглед исечка. Превуци да помериш фотографију, стрелице померају фино.", "step1": "Твоја фотографија", "step1Sub": "Датотека се чита овде, у прегледачу. Ништа се не шаље.", "step2": "Твој табак", "support": "Подржи пројекат", "tagline": "Фотографије за документа, штампане код куће.", "theme": "Тема", "themeToggle": "Пребаци светлу или тамну тему", "tip1b": "Стани испред равног, светлог зида без рамова и предмета. Дневно светло кроз прозор испред тебе, никада иза. Без сенке на лицу или на зиду.", "tip1t": "Светло и позадина", "tip2b": "Гледај право у објектив, уста затворена, неутралан израз, оба ока видљива. Коса склоњена са обрва. Без наочара за документе EU од 2015.", "tip2t": "Лице и израз", "tip3b": "Замоли некога да држи телефон у висини твојих очију, око 1,5 м даље, док глава и рамена не испуне кадар. Селфи на дужини руке искривљује лице.", "tip3t": "Растојање и висина", "tip4b": "Користи сјајни или мат фото папир од 10 x 15 цм и штампај на 100 посто. Искључи прилагођавање страници. Обичан канцеларијски папир се не прихвата.", "tip4t": "Папир и штампач", "tip5b": "Без заглађивања, без бељења очију, без замењене позадине. Ретуширане фотографије се одбијају. Исецање и скалирање су у реду, мењање лица није.", "tip5t": "Без ретуша", "tip6b": "Правила се разликују по земљама и мењају се. Орган који издаје документ одлучује. Кад ниси сигуран, питај пре него што одштампаш двадесет копија.", "tip6t": "Провери важећа правила", "tipsIntro": "Ова алатка уоквирује фотографију. Не може лошу слику претворити у прихваћену, зато крени од добре.", "tipsTitle": "Пре штампе", "toastPhoto": "Фотографија је сачувана", "toastPrint": "Припрема табака за штампу", "toastReady": "Фотографија је учитана", "toastRemoved": "Фотографија је уклоњена", "toastSheet": "Табак је сачуван", "toastUndo": "Исецање је поништено", "undo": "Поништи", "undoTip": "Поништи последњу измену исецања", "versionText": "Верзија {version}", "zoomInAria": "Повећај увећање", "zoomLabel": "Увећање", "zoomOutAria": "Смањи увећање"}
+};
+</script>
+<script>
+/* Photo Sheet · TekiDeki - interface
+ * SPDX-License-Identifier: Apache-2.0
+ * Copyright 2026 Kristian Mario Miskovic (TekiDeki)
+ *
+ * No framework, no network, no cookies. The photo never leaves this tab: it is
+ * decoded from a local file into an Image object and drawn on canvas. Settings
+ * only are kept in localStorage.
+ */
+(function () {
+  'use strict';
+
+  var PS = window.PS;
+  var LOCALES = window.TD_LOCALES || {};
+  var LANGS = ['en', 'ro', 'sr-latn', 'sr-cyrl'];
+  var HTML_LANG = { en: 'en', ro: 'ro', 'sr-latn': 'sr-Latn', 'sr-cyrl': 'sr-Cyrl' };
+  var STORAGE_KEY = 'photo-sheet.v1';
+  var MAX_BYTES = 25 * 1024 * 1024;
+  var DPR = Math.min(window.devicePixelRatio || 1, 2.5);
+
+  var state = {
+    language: 'en',
+    theme: 'light',
+    preset: 'std35',
+    sheet: 's10x15',
+    customW: 35,
+    customH: 45,
+    guides: true,
+    cutMarks: true,
+    tf: PS.defaultTransform(),
+    image: null,
+    imageName: '',
+    history: [],
+    toastTimer: null,
+    qualityTimer: null,
+    resizeTimer: null,
+    storageOk: true,
+    drag: null
+  };
+
+  var el = {};
+
+  /* -------------------------------------------------------------- utilities */
+
+  function $(id) { return document.getElementById(id); }
+
+  function t(key, vars) {
+    var pack = LOCALES[state.language] || LOCALES.en || {};
+    var text = pack[key];
+    if (text === undefined) text = (LOCALES.en || {})[key];
+    if (text === undefined) return key;
+    if (vars) {
+      Object.keys(vars).forEach(function (name) {
+        text = text.split('{' + name + '}').join(String(vars[name]));
+      });
+    }
+    return text;
+  }
+
+  function clone(value) { return JSON.parse(JSON.stringify(value)); }
+
+  function currentPreset() {
+    return PS.getPreset(state.preset, state.customW, state.customH);
+  }
+
+  function currentSheet() {
+    return PS.getSheet(state.sheet);
+  }
+
+  function presetLabel(preset) {
+    return t(preset.key);
+  }
+
+  function toast(message) {
+    if (!el.toast) return;
+    el.toast.textContent = message;
+    el.toast.classList.add('is-on');
+    clearTimeout(state.toastTimer);
+    state.toastTimer = setTimeout(function () { el.toast.classList.remove('is-on'); }, 2200);
+  }
+
+  /* --------------------------------------------------------------- settings */
+
+  function save() {
+    if (!state.storageOk) return;
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        v: 1,
+        language: state.language,
+        theme: state.theme,
+        preset: state.preset,
+        sheet: state.sheet,
+        customW: state.customW,
+        customH: state.customH,
+        guides: state.guides,
+        cutMarks: state.cutMarks
+      }));
+    } catch (error) {
+      state.storageOk = false;
+    }
+  }
+
+  function loadSettings() {
+    var stored = null;
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) stored = JSON.parse(raw);
+    } catch (error) {
+      stored = null;
+    }
+    if (stored && typeof stored === 'object') {
+      if (LANGS.indexOf(stored.language) > -1) state.language = stored.language;
+      if (stored.theme === 'dark' || stored.theme === 'light') state.theme = stored.theme;
+      var ids = PS.PRESETS.map(function (item) { return item.id; }).concat(['custom']);
+      if (ids.indexOf(stored.preset) > -1) state.preset = stored.preset;
+      var sheets = PS.SHEETS.map(function (item) { return item.id; });
+      if (sheets.indexOf(stored.sheet) > -1) state.sheet = stored.sheet;
+      if (typeof stored.customW === 'number') state.customW = PS.clamp(stored.customW, 15, 150);
+      if (typeof stored.customH === 'number') state.customH = PS.clamp(stored.customH, 15, 150);
+      if (typeof stored.guides === 'boolean') state.guides = stored.guides;
+      if (typeof stored.cutMarks === 'boolean') state.cutMarks = stored.cutMarks;
+      return true;
+    }
+    var nav = (navigator.language || 'en').toLowerCase();
+    if (nav.indexOf('ro') === 0) state.language = 'ro';
+    else if (nav.indexOf('sr') === 0) state.language = nav.indexOf('cyrl') > -1 || nav.indexOf('cyrillic') > -1 ? 'sr-cyrl' : 'sr-latn';
+    else state.language = 'en';
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) state.theme = 'dark';
+    return false;
+  }
+
+  /* -------------------------------------------------------------- language */
+
+  function applyLanguage() {
+    document.documentElement.lang = HTML_LANG[state.language] || 'en';
+    var nodes = document.querySelectorAll('[data-i18n]');
+    for (var i = 0; i < nodes.length; i++) {
+      nodes[i].textContent = t(nodes[i].getAttribute('data-i18n'));
+    }
+    var titled = document.querySelectorAll('[data-i18n-title]');
+    for (var j = 0; j < titled.length; j++) {
+      titled[j].setAttribute('title', t(titled[j].getAttribute('data-i18n-title')));
+    }
+    var labelled = document.querySelectorAll('[data-i18n-aria-label]');
+    for (var k = 0; k < labelled.length; k++) {
+      labelled[k].setAttribute('aria-label', t(labelled[k].getAttribute('data-i18n-aria-label')));
+    }
+    if (el.langSelect) el.langSelect.value = state.language;
+    buildSelects();
+    updatePresetNote();
+    updateCount();
+    updateSizeText();
+    updateQualityText();
+    drawStage();
+    drawSheet();
+  }
+
+  function setLanguage(language) {
+    if (LANGS.indexOf(language) < 0) return;
+    state.language = language;
+    save();
+    applyLanguage();
+  }
+
+  function setTheme(theme) {
+    state.theme = theme === 'dark' ? 'dark' : 'light';
+    document.documentElement.classList.toggle('theme-dark', state.theme === 'dark');
+    save();
+  }
+
+  /* ----------------------------------------------------------------- selects */
+
+  function buildSelects() {
+    if (!el.presetSelect) return;
+    var preset = currentPreset();
+    el.presetSelect.innerHTML = '';
+    PS.PRESETS.forEach(function (item) {
+      var option = document.createElement('option');
+      option.value = item.id;
+      option.textContent = t(item.key);
+      el.presetSelect.appendChild(option);
+    });
+    var custom = document.createElement('option');
+    custom.value = 'custom';
+    custom.textContent = t('presetCustom');
+    el.presetSelect.appendChild(custom);
+    el.presetSelect.value = state.preset;
+
+    el.sheetSelect.innerHTML = '';
+    PS.SHEETS.forEach(function (item) {
+      var option = document.createElement('option');
+      option.value = item.id;
+      option.textContent = t(item.key);
+      el.sheetSelect.appendChild(option);
+    });
+    el.sheetSelect.value = state.sheet;
+    if (el.customField) el.customField.hidden = state.preset !== 'custom';
+    if (el.customW) el.customW.value = state.customW;
+    if (el.customH) el.customH.value = state.customH;
+    if (el.guidesToggle) el.guidesToggle.checked = state.guides;
+    if (el.cutMarksToggle) el.cutMarksToggle.checked = state.cutMarks;
+    void preset;
+  }
+
+  function updatePresetNote() {
+    if (!el.presetNote) return;
+    var preset = currentPreset();
+    var key = preset.key + 'Note';
+    el.presetNote.textContent = t(key);
+  }
+
+  function updateCount() {
+    if (!el.countText) return;
+    var layout = PS.layout(currentPreset(), currentSheet(), 4, 3);
+    var text;
+    if (layout.count === 0) text = t('countNone');
+    else if (layout.count === 1) text = t('countOne');
+    else text = t('countMany', { count: layout.count });
+    el.countText.textContent = text;
+  }
+
+  function updateSizeText() {
+    if (!el.sizeText) return;
+    var sheet = currentSheet();
+    el.sizeText.textContent = t('sizeText', {
+      w: PS.mmToPx(sheet.w),
+      h: PS.mmToPx(sheet.h),
+      sheet: sheet.short
+    });
+  }
+
+  /* ------------------------------------------------------------------ stage */
+
+  function stageMetrics() {
+    var preset = currentPreset();
+    var box = el.stage ? el.stage.clientWidth - 28 : 320;
+    var availW = Math.max(180, Math.min(box, 380));
+    var availH = Math.max(220, Math.round(window.innerHeight * 0.44));
+    var width = availW;
+    var height = width * preset.h / preset.w;
+    if (height > availH) {
+      height = availH;
+      width = height * preset.w / preset.h;
+    }
+    return { w: Math.round(width), h: Math.round(height) };
+  }
+
+  function sizeCanvas(canvas, cssW, cssH) {
+    canvas.style.width = cssW + 'px';
+    canvas.style.height = cssH + 'px';
+    canvas.width = Math.round(cssW * DPR);
+    canvas.height = Math.round(cssH * DPR);
+  }
+
+  function drawStage() {
+    if (!el.stageCanvas) return;
+    var metrics = stageMetrics();
+    sizeCanvas(el.stageCanvas, metrics.w, metrics.h);
+    var ctx = el.stageCanvas.getContext('2d');
+    var w = el.stageCanvas.width;
+    var h = el.stageCanvas.height;
+    ctx.clearRect(0, 0, w, h);
+
+    ctx.fillStyle = '#3b444c';
+    ctx.fillRect(0, 0, w, h);
+
+    if (state.image) {
+      try {
+        PS.drawFrame(ctx, state.image, w, h, state.tf);
+      } catch (error) {
+        ctx.fillStyle = '#3b444c';
+        ctx.fillRect(0, 0, w, h);
+      }
+    }
+
+    if (state.guides) drawGuides(ctx, w, h, currentPreset());
+  }
+
+  function drawGuides(ctx, w, h, preset) {
+    var perMm = h / preset.h;
+    var bands = PS.guides(preset);
+    var list = [
+      { band: bands.crown, label: t('guideCrown'), tone: 'rgba(108, 199, 212, 0.30)' },
+      { band: bands.eyes, label: t('guideEyes'), tone: 'rgba(255, 214, 138, 0.30)' },
+      { band: bands.chin, label: t('guideChin'), tone: 'rgba(108, 199, 212, 0.30)' }
+    ];
+
+    ctx.save();
+    list.forEach(function (item) {
+      var y1 = item.band[0] * perMm;
+      var y2 = item.band[1] * perMm;
+      ctx.fillStyle = item.tone;
+      ctx.fillRect(0, y1, w, y2 - y1);
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.72)';
+      ctx.lineWidth = Math.max(1, DPR);
+      ctx.setLineDash([6 * DPR, 5 * DPR]);
+      ctx.beginPath();
+      ctx.moveTo(0, y1);
+      ctx.lineTo(w, y1);
+      ctx.moveTo(0, y2);
+      ctx.lineTo(w, y2);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      var label = item.label + ' ' + item.band[0] + '-' + item.band[1];
+      ctx.font = '600 ' + Math.round(10.5 * DPR) + 'px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+      var textWidth = ctx.measureText(label).width;
+      var padX = 5 * DPR;
+      var boxW = textWidth + padX * 2;
+      var boxH = 17 * DPR;
+      var bx = w - boxW - 6 * DPR;
+      var by = Math.min(Math.max((y1 + y2) / 2 - boxH / 2, 2 * DPR), h - boxH - 2 * DPR);
+      ctx.fillStyle = 'rgba(12, 20, 26, 0.72)';
+      roundRect(ctx, bx, by, boxW, boxH, 5 * DPR);
+      ctx.fill();
+      ctx.fillStyle = '#f3f7f8';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(label, bx + padX, by + boxH / 2 + 0.5 * DPR);
+    });
+
+    /* centre line */
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.28)';
+    ctx.lineWidth = Math.max(1, DPR);
+    ctx.setLineDash([4 * DPR, 6 * DPR]);
+    ctx.beginPath();
+    ctx.moveTo(w / 2, 0);
+    ctx.lineTo(w / 2, h);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+  }
+
+  /* ------------------------------------------------------------------ sheet */
+
+  function sheetMetrics() {
+    var box = el.sheetStage ? el.sheetStage.clientWidth - 32 : 360;
+    var availW = Math.max(220, Math.min(box, 460));
+    var sheet = currentSheet();
+    var width = availW;
+    var height = width * sheet.h / sheet.w;
+    /* keep the whole sheet on screen next to the crop */
+    var maxH = Math.max(240, Math.round(window.innerHeight * 0.42));
+    if (height > maxH) {
+      height = maxH;
+      width = height * sheet.w / sheet.h;
+    }
+    return { w: Math.round(width), h: Math.round(height) };
+  }
+
+  function drawSheet() {
+    if (!el.sheetCanvas) return;
+    var metrics = sheetMetrics();
+    sizeCanvas(el.sheetCanvas, metrics.w, metrics.h);
+    var ctx = el.sheetCanvas.getContext('2d');
+    var sheet = currentSheet();
+    var pxPerMm = el.sheetCanvas.width / sheet.w;
+    drawSheetContent(ctx, pxPerMm, el.sheetCanvas.width, el.sheetCanvas.height, false);
+  }
+
+  function drawSheetContent(ctx, pxPerMm, widthPx, heightPx, forExport) {
+    var sheet = currentSheet();
+    var preset = currentPreset();
+    var layout = PS.layout(preset, sheet, 4, 3);
+    ctx.save();
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, widthPx, heightPx);
+
+    layout.cells.forEach(function (cell) {
+      var x = cell.x * pxPerMm;
+      var y = cell.y * pxPerMm;
+      var w = cell.w * pxPerMm;
+      var h = cell.h * pxPerMm;
+
+      ctx.save();
+      /* Each cell is its own window: a zoomed crop must never bleed into the
+       * paper between the photos. */
+      ctx.beginPath();
+      ctx.rect(x, y, w, h);
+      ctx.clip();
+      ctx.translate(x, y);
+      if (state.image) {
+        PS.drawFrame(ctx, state.image, w, h, state.tf);
+      } else {
+        ctx.fillStyle = '#f4f5f6';
+        ctx.fillRect(0, 0, w, h);
+        ctx.strokeStyle = '#c9ced3';
+        ctx.lineWidth = Math.max(1, pxPerMm * 0.25);
+        ctx.setLineDash([pxPerMm * 1.4, pxPerMm * 1.2]);
+        ctx.strokeRect(ctx.lineWidth / 2, ctx.lineWidth / 2, w - ctx.lineWidth, h - ctx.lineWidth);
+        ctx.setLineDash([]);
+        if (!forExport || !state.image) {
+          ctx.fillStyle = '#9aa2a9';
+          ctx.font = '600 ' + Math.round(Math.max(8, Math.min(w, h) * 0.075)) + 'px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(t('emptyCell'), w / 2, h / 2);
+        }
+      }
+      ctx.restore();
+    });
+
+    if (state.cutMarks) {
+      ctx.strokeStyle = '#aab2b9';
+      ctx.lineWidth = Math.max(0.6, pxPerMm * 0.22);
+      ctx.lineCap = 'square';
+      var tick = Math.min(2.4, Math.max(1.2, layout.gap * 0.6));
+      var gapOut = Math.min(1.1, layout.gap * 0.35);
+      layout.cells.forEach(function (cell) {
+        var left = cell.x * pxPerMm;
+        var top = cell.y * pxPerMm;
+        var right = (cell.x + cell.w) * pxPerMm;
+        var bottom = (cell.y + cell.h) * pxPerMm;
+        var out = gapOut * pxPerMm;
+        var len = tick * pxPerMm;
+        [[left, top, -1, -1], [right, top, 1, -1], [left, bottom, -1, 1], [right, bottom, 1, 1]].forEach(function (corner) {
+          var cx = corner[0];
+          var cy = corner[1];
+          var sx = corner[2];
+          var sy = corner[3];
+          ctx.beginPath();
+          ctx.moveTo(cx + sx * out, cy);
+          ctx.lineTo(cx + sx * (out + len), cy);
+          ctx.moveTo(cx, cy + sy * out);
+          ctx.lineTo(cx, cy + sy * (out + len));
+          ctx.stroke();
+        });
+      });
+    }
+
+    ctx.restore();
+  }
+
+  function exportSheetCanvas() {
+    var sheet = currentSheet();
+    var canvas = document.createElement('canvas');
+    canvas.width = PS.mmToPx(sheet.w);
+    canvas.height = PS.mmToPx(sheet.h);
+    var ctx = canvas.getContext('2d');
+    var pxPerMm = canvas.width / sheet.w;
+    drawSheetContent(ctx, pxPerMm, canvas.width, canvas.height, true);
+    return canvas;
+  }
+
+  function exportPhotoCanvas() {
+    var preset = currentPreset();
+    var canvas = document.createElement('canvas');
+    canvas.width = PS.mmToPx(preset.w);
+    canvas.height = PS.mmToPx(preset.h);
+    var ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.beginPath();
+    ctx.rect(0, 0, canvas.width, canvas.height);
+    ctx.clip();
+    PS.drawFrame(ctx, state.image, canvas.width, canvas.height, state.tf);
+    return canvas;
+  }
+
+  /* ---------------------------------------------------------------- quality */
+
+  function scheduleQuality() {
+    clearTimeout(state.qualityTimer);
+    state.qualityTimer = setTimeout(analyze, 180);
+  }
+
+  function analyze() {
+    if (!state.image) {
+      setChip(el.chipResolution, 'good', 'resGood', 'resTipGood');
+      setChip(el.chipBackground, 'good', 'bgGood', 'bgTipGood');
+      setChip(el.chipSharpness, 'good', 'sharpGood', 'sharpTipGood');
+      return;
+    }
+    var preset = currentPreset();
+    var outW = PS.mmToPx(preset.w);
+    var outH = PS.mmToPx(preset.h);
+    var res = PS.resolution(state.image.width, state.image.height, outW, outH, state.tf.zoom, state.tf.rot);
+    var key = res.state === 'good' ? 'resGood' : res.state === 'warn' ? 'resWarn' : 'resBad';
+    var tip = res.state === 'good' ? 'resTipGood' : res.state === 'warn' ? 'resTipWarn' : 'resTipBad';
+    setChip(el.chipResolution, res.state, key, tip);
+
+    var width = 160;
+    var height = Math.max(40, Math.round(width * outH / outW));
+    var canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    var ctx = canvas.getContext('2d', { willReadFrequently: true });
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, width, height);
+    try {
+      PS.drawFrame(ctx, state.image, width, height, state.tf);
+    } catch (error) {
+      return;
+    }
+    var data;
+    try {
+      data = ctx.getImageData(0, 0, width, height).data;
+    } catch (error) {
+      return;
+    }
+
+    /* Background is judged above and beside the head only. Shoulders and
+     * clothing near the bottom are normal in every accepted photo, so a full
+     * ring would call good photos busy. */
+    /* Background is judged in the top two corners only. Every accepted
+     * portrait has shoulders in the bottom corners and hair in the middle, so
+     * measuring those would call a good photo busy. The top corners are wall
+     * until the face is framed far too tight, which is itself worth a warning. */
+    var cornerW = Math.round(width * 0.24);
+    var cornerH = Math.round(height * 0.20);
+    var corners = [[], []];
+    var gray = new Float64Array(width * height);
+    for (var y = 0; y < height; y++) {
+      for (var x = 0; x < width; x++) {
+        var i = (y * width + x) * 4;
+        gray[y * width + x] = 0.2126 * data[i] + 0.7152 * data[i + 1] + 0.0722 * data[i + 2];
+        if (y >= cornerH || (x + y) % 2) continue;
+        if (x < cornerW) corners[0].push([data[i], data[i + 1], data[i + 2]]);
+        else if (x >= width - cornerW) corners[1].push([data[i], data[i + 1], data[i + 2]]);
+      }
+    }
+    var bg = PS.background(corners);
+    var bgState = bg.state;
+    var bgKey = bg.state === 'good' ? 'bgGood' : bg.state === 'warn' ? 'bgWarn' : 'bgBad';
+    if (bgState === 'good' && !bg.light) {
+      bgState = 'warn';
+      bgKey = 'bgDark';
+    }
+    setChip(el.chipBackground, bgState, bgKey, bgState === 'good' ? 'bgTipGood' : 'bgTipBad');
+
+    var sharp = PS.sharpness(Array.prototype.slice.call(gray), width, height);
+    var sharpKey = sharp.state === 'good' ? 'sharpGood' : sharp.state === 'warn' ? 'sharpWarn' : 'sharpBad';
+    setChip(el.chipSharpness, sharp.state, sharpKey, sharp.state === 'good' ? 'sharpTipGood' : 'sharpTipBad');
+  }
+
+  function setChip(node, chipState, textKey, tipKey) {
+    if (!node) return;
+    node.setAttribute('data-state', chipState);
+    var label = node.querySelector('.chip-text');
+    if (label) label.textContent = t(textKey);
+    node.setAttribute('title', t(tipKey));
+  }
+
+  function updateQualityText() {
+    analyze();
+  }
+
+  /* ---------------------------------------------------------------- history */
+
+  function pushHistory() {
+    if (!state.image) return;
+    state.history.push(clone(state.tf));
+    if (state.history.length > 40) state.history.shift();
+    updateUndo();
+  }
+
+  function undo() {
+    if (!state.history.length) {
+      toast(t('nothingToUndo'));
+      return;
+    }
+    state.tf = state.history.pop();
+    updateUndo();
+    drawStage();
+    drawSheet();
+    scheduleQuality();
+    toast(t('toastUndo'));
+  }
+
+  function updateUndo() {
+    if (el.undoBtn) el.undoBtn.disabled = state.history.length === 0;
+  }
+
+  /* ------------------------------------------------------------- file input */
+
+  function loadFile(file) {
+    if (!file) return;
+    if (file.type && file.type.indexOf('image/') !== 0) {
+      toast(t('errType'));
+      return;
+    }
+    if (file.size > MAX_BYTES) {
+      toast(t('errSize'));
+      return;
+    }
+    var url = URL.createObjectURL(file);
+    var img = new Image();
+    img.onload = function () {
+      URL.revokeObjectURL(url);
+      if (!img.width || !img.height) {
+        toast(t('errLoad'));
+        return;
+      }
+      state.image = img;
+      state.imageName = file.name || 'photo';
+      state.tf = PS.defaultTransform();
+      state.history = [];
+      state.drag = null;
+      showStage(true);
+      updateUndo();
+      refreshAll();
+      toast(t('toastReady'));
+    };
+    img.onerror = function () {
+      URL.revokeObjectURL(url);
+      toast(t('errLoad'));
+    };
+    img.src = url;
+  }
+
+  function showStage(on) {
+    if (el.dropZone) el.dropZone.classList.toggle('is-hidden', on);
+    if (el.stageBlock) el.stageBlock.hidden = !on;
+    [el.printBtn, el.sheetBtn, el.photoBtn].forEach(function (node) {
+      if (node) node.disabled = !on;
+    });
+  }
+
+  function removePhoto() {
+    state.image = null;
+    state.imageName = '';
+    state.tf = PS.defaultTransform();
+    state.history = [];
+    state.drag = null;
+    showStage(false);
+    updateUndo();
+    drawSheet();
+    analyze();
+    toast(t('toastRemoved'));
+  }
+
+  function refreshAll() {
+    drawStage();
+    drawSheet();
+    updateCount();
+    updateSizeText();
+    scheduleQuality();
+    if (el.zoomRange) el.zoomRange.value = state.tf.zoom;
+    if (el.zoomValue) el.zoomValue.textContent = Math.round(state.tf.zoom * 100) + '%';
+  }
+
+  /* ------------------------------------------------------------------ drag */
+
+  function bindStage() {
+    var canvas = el.stageCanvas;
+    if (!canvas) return;
+
+    canvas.addEventListener('pointerdown', function (event) {
+      if (!state.image) return;
+      pushHistory();
+      state.drag = {
+        x: event.clientX,
+        y: event.clientY,
+        ox: state.tf.ox,
+        oy: state.tf.oy
+      };
+      if (canvas.setPointerCapture) {
+        try { canvas.setPointerCapture(event.pointerId); } catch (error) { /* ignore */ }
+      }
+      event.preventDefault();
+    });
+
+    canvas.addEventListener('pointermove', function (event) {
+      if (!state.drag || !state.image) return;
+      var rect = canvas.getBoundingClientRect();
+      var dx = (event.clientX - state.drag.x) / Math.max(1, rect.width);
+      var dy = (event.clientY - state.drag.y) / Math.max(1, rect.height);
+      state.tf.ox = state.drag.ox + dx;
+      state.tf.oy = state.drag.oy + dy;
+      state.tf = PS.sanitizeTransform(state.tf, state.image.width, state.image.height, canvas.width, canvas.height);
+      drawStage();
+      drawSheet();
+      scheduleQuality();
+    });
+
+    function endDrag() { state.drag = null; }
+    canvas.addEventListener('pointerup', endDrag);
+    canvas.addEventListener('pointercancel', endDrag);
+    canvas.addEventListener('lostpointercapture', endDrag);
+
+    canvas.addEventListener('wheel', function (event) {
+      if (!state.image) return;
+      event.preventDefault();
+      pushHistory();
+      var step = event.deltaY > 0 ? -0.05 : 0.05;
+      setZoom(state.tf.zoom + step);
+    }, { passive: false });
+
+    canvas.addEventListener('keydown', function (event) {
+      if (!state.image) return;
+      var step = event.shiftKey ? 0.04 : 0.008;
+      var moved = true;
+      if (event.key === 'ArrowLeft') state.tf.ox -= step;
+      else if (event.key === 'ArrowRight') state.tf.ox += step;
+      else if (event.key === 'ArrowUp') state.tf.oy -= step;
+      else if (event.key === 'ArrowDown') state.tf.oy += step;
+      else if (event.key === '+' || event.key === '=') { pushHistory(); setZoom(state.tf.zoom + 0.08); return; }
+      else if (event.key === '-') { pushHistory(); setZoom(state.tf.zoom - 0.08); return; }
+      else moved = false;
+      if (!moved) return;
+      event.preventDefault();
+      pushHistory();
+      state.tf = PS.sanitizeTransform(state.tf, state.image.width, state.image.height, el.stageCanvas.width, el.stageCanvas.height);
+      drawStage();
+      drawSheet();
+      scheduleQuality();
+    });
+  }
+
+  function setZoom(value) {
+    if (!state.image) return;
+    state.tf.zoom = PS.clampZoom(value);
+    state.tf = PS.sanitizeTransform(state.tf, state.image.width, state.image.height, el.stageCanvas.width, el.stageCanvas.height);
+    if (el.zoomRange) el.zoomRange.value = state.tf.zoom;
+    if (el.zoomValue) el.zoomValue.textContent = Math.round(state.tf.zoom * 100) + '%';
+    drawStage();
+    drawSheet();
+    scheduleQuality();
+  }
+
+  /* --------------------------------------------------------------- exports */
+
+  function download(blob, name) {
+    var url = URL.createObjectURL(blob);
+    var link = document.createElement('a');
+    link.href = url;
+    link.download = name;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+  }
+
+  function withDpi(canvas, callback) {
+    canvas.toBlob(function (blob) {
+      if (!blob) return;
+      if (blob.arrayBuffer) {
+        blob.arrayBuffer().then(function (buffer) {
+          var bytes = PS.pngWithDpi(new Uint8Array(buffer), PS.DPI);
+          callback(new Blob([bytes], { type: 'image/png' }));
+        }).catch(function () { callback(blob); });
+      } else {
+        callback(blob);
+      }
+    }, 'image/png');
+  }
+
+  function downloadSheet() {
+    if (!state.image) return;
+    var sheet = currentSheet();
+    var canvas = exportSheetCanvas();
+    withDpi(canvas, function (blob) {
+      download(blob, 'photo-sheet-' + sheet.w + 'x' + sheet.h + 'cm-300dpi.png');
+      toast(t('toastSheet'));
+    });
+  }
+
+  function downloadPhoto() {
+    if (!state.image) return;
+    var preset = currentPreset();
+    var canvas = exportPhotoCanvas();
+    withDpi(canvas, function (blob) {
+      download(blob, 'photo-' + preset.w + 'x' + preset.h + 'mm-300dpi.png');
+      toast(t('toastPhoto'));
+    });
+  }
+
+  function preparePrint() {
+    if (!state.image) return false;
+    var sheet = currentSheet();
+    var canvas = exportSheetCanvas();
+    el.printImage.src = canvas.toDataURL('image/png');
+    el.printImage.style.width = sheet.w + 'mm';
+    el.printImage.style.height = sheet.h + 'mm';
+    if (el.pageStyle) {
+      el.pageStyle.textContent = '@page { size: ' + sheet.w + 'mm ' + sheet.h + 'mm; margin: 0; }';
+    }
+    return true;
+  }
+
+  function print() {
+    if (!state.image) return;
+    preparePrint();
+    toast(t('toastPrint'));
+    var go = function () { window.print(); };
+    if (el.printImage.decode) {
+      el.printImage.decode().then(go).catch(go);
+    } else if (el.printImage.complete) {
+      setTimeout(go, 60);
+    } else {
+      el.printImage.onload = go;
+    }
+  }
+
+  /* ------------------------------------------------------------------ bind */
+
+  function bind() {
+    bindStage();
+
+    if (el.pickBtn) el.pickBtn.addEventListener('click', function () { el.fileInput.click(); });
+    if (el.replaceBtn) el.replaceBtn.addEventListener('click', function () { el.fileInput.click(); });
+    if (el.fileInput) el.fileInput.addEventListener('change', function (event) {
+      var file = event.target.files && event.target.files[0];
+      loadFile(file);
+      event.target.value = '';
+    });
+
+    ['dragenter', 'dragover'].forEach(function (name) {
+      document.addEventListener(name, function (event) {
+        if (!event.dataTransfer) return;
+        event.preventDefault();
+        if (el.dropZone && !state.image) el.dropZone.classList.add('dragover');
+      });
+    });
+    ['dragleave', 'drop'].forEach(function (name) {
+      document.addEventListener(name, function (event) {
+        if (!event.dataTransfer) return;
+        event.preventDefault();
+        if (el.dropZone) el.dropZone.classList.remove('dragover');
+      });
+    });
+    document.addEventListener('drop', function (event) {
+      if (!event.dataTransfer) return;
+      var file = event.dataTransfer.files && event.dataTransfer.files[0];
+      if (file) loadFile(file);
+    });
+
+    if (el.removeBtn) el.removeBtn.addEventListener('click', removePhoto);
+
+    if (el.rotateBtn) el.rotateBtn.addEventListener('click', function () {
+      if (!state.image) return;
+      pushHistory();
+      state.tf.rot = PS.normalizeRot(state.tf.rot + 90);
+      state.tf = PS.sanitizeTransform(state.tf, state.image.width, state.image.height, el.stageCanvas.width, el.stageCanvas.height);
+      refreshAll();
+    });
+
+    if (el.flipBtn) el.flipBtn.addEventListener('click', function () {
+      if (!state.image) return;
+      pushHistory();
+      state.tf.flip = !state.tf.flip;
+      refreshAll();
+    });
+
+    if (el.resetBtn) el.resetBtn.addEventListener('click', function () {
+      if (!state.image) return;
+      pushHistory();
+      state.tf = PS.defaultTransform();
+      refreshAll();
+    });
+
+    if (el.zoomRange) {
+      el.zoomRange.min = PS.MIN_ZOOM;
+      el.zoomRange.max = PS.MAX_ZOOM;
+      el.zoomRange.addEventListener('pointerdown', pushHistory);
+      el.zoomRange.addEventListener('keydown', pushHistory);
+      el.zoomRange.addEventListener('input', function () { setZoom(Number(el.zoomRange.value)); });
+    }
+    if (el.zoomOutBtn) el.zoomOutBtn.addEventListener('click', function () { pushHistory(); setZoom(state.tf.zoom - 0.1); });
+    if (el.zoomInBtn) el.zoomInBtn.addEventListener('click', function () { pushHistory(); setZoom(state.tf.zoom + 0.1); });
+
+    if (el.guidesToggle) el.guidesToggle.addEventListener('change', function () {
+      state.guides = el.guidesToggle.checked;
+      save();
+      drawStage();
+    });
+
+    if (el.cutMarksToggle) el.cutMarksToggle.addEventListener('change', function () {
+      state.cutMarks = el.cutMarksToggle.checked;
+      save();
+      drawSheet();
+    });
+
+    if (el.presetSelect) el.presetSelect.addEventListener('change', function () {
+      state.preset = el.presetSelect.value;
+      if (state.preset === 'custom') {
+        state.customW = Number(el.customW.value) || 35;
+        state.customH = Number(el.customH.value) || 45;
+      }
+      save();
+      buildSelects();
+      updatePresetNote();
+      updateCount();
+      updateSizeText();
+      drawStage();
+      drawSheet();
+      scheduleQuality();
+    });
+
+    ['customW', 'customH'].forEach(function (id) {
+      var node = el[id];
+      if (!node) return;
+      node.addEventListener('input', function () {
+        state.customW = PS.clamp(Number(el.customW.value) || 35, 15, 150);
+        state.customH = PS.clamp(Number(el.customH.value) || 45, 15, 150);
+        state.preset = 'custom';
+        save();
+        updateCount();
+        updateSizeText();
+        drawStage();
+        drawSheet();
+        scheduleQuality();
+      });
+    });
+
+    if (el.sheetSelect) el.sheetSelect.addEventListener('change', function () {
+      state.sheet = el.sheetSelect.value;
+      save();
+      updateCount();
+      updateSizeText();
+      drawSheet();
+    });
+
+    if (el.sheetBtn) el.sheetBtn.addEventListener('click', downloadSheet);
+    if (el.photoBtn) el.photoBtn.addEventListener('click', downloadPhoto);
+    if (el.printBtn) el.printBtn.addEventListener('click', print);
+
+    if (el.undoBtn) el.undoBtn.addEventListener('click', undo);
+
+    if (el.themeBtn) el.themeBtn.addEventListener('click', function () {
+      setTheme(state.theme === 'dark' ? 'light' : 'dark');
+    });
+
+    if (el.langSelect) el.langSelect.addEventListener('change', function () {
+      setLanguage(el.langSelect.value);
+    });
+
+    document.addEventListener('keydown', function (event) {
+      var mod = event.ctrlKey || event.metaKey;
+      if (mod && (event.key === 'z' || event.key === 'Z') && !event.shiftKey && !event.target.matches('input, select, textarea')) {
+        event.preventDefault();
+        undo();
+      }
+    });
+
+    window.addEventListener('beforeprint', preparePrint);
+
+    window.addEventListener('resize', function () {
+      clearTimeout(state.resizeTimer);
+      state.resizeTimer = setTimeout(function () {
+        drawStage();
+        drawSheet();
+      }, 140);
+    });
+  }
+
+  /* ------------------------------------------------------------------- init */
+
+  function registerWorker() {
+    if (!('serviceWorker' in navigator)) return;
+    if (!/^https?:$/.test(window.location.protocol)) return;
+    try {
+      navigator.serviceWorker.register('sw.js').catch(function () { /* offline is optional */ });
+    } catch (error) { /* older browsers */ }
+  }
+
+  function init() {
+    [
+      'dropZone', 'stageBlock', 'stage', 'stageCanvas', 'fileInput', 'pickBtn', 'replaceBtn', 'removeBtn',
+      'rotateBtn', 'flipBtn', 'resetBtn', 'zoomRange', 'zoomOutBtn', 'zoomInBtn', 'zoomValue',
+      'chipResolution', 'chipBackground', 'chipSharpness', 'presetSelect', 'presetNote', 'customField',
+      'customW', 'customH', 'sheetSelect', 'sheetCanvas', 'sheetStage', 'countText', 'guidesToggle',
+      'cutMarksToggle', 'printBtn', 'sheetBtn', 'photoBtn', 'sizeText', 'printImage', 'toast',
+      'undoBtn', 'themeBtn', 'langSelect', 'versionText'
+    ].forEach(function (id) { el[id] = $(id); });
+    el.pageStyle = $('pageStyle');
+
+    loadSettings();
+    document.documentElement.classList.toggle('theme-dark', state.theme === 'dark');
+    buildSelects();
+    applyLanguage();
+    bind();
+    showStage(false);
+    updateUndo();
+
+    if (el.versionText) {
+      var version = document.documentElement.getAttribute('data-version') || '1';
+      el.versionText.textContent = t('versionText', { version: version });
+    }
+
+    drawSheet();
+    updateCount();
+    updateSizeText();
+    registerWorker();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+}());
+</script>
+<!-- Photo Sheet 1 · single file build -->
+</body>
+</html>

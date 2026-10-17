@@ -1,0 +1,35 @@
+Photo Sheet
+Copyright 2026 Kristian Mario Miskovic (TekiDeki)
+https://github.com/TekiDeki/Photo-Sheet
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+--------------------------------------------------------------------------
+Third-party software
+--------------------------------------------------------------------------
+
+None. The application is a single HTML file built from the sources in this
+repository: HTML and CSS written for this project, a translation table with
+four locales, a small geometry engine and about 900 lines of plain
+JavaScript. It bundles no library, no framework, no analytics and no font
+file, and it loads nothing from the network at runtime - not even a CDN copy
+of anything.
+
+The PNG density writer (a pHYs chunk inserted after IHDR, with a CRC-32 over
+the chunk type and data) is implemented in this project from the public PNG
+specification, RFC 2083. It does not include code from libpng, zlib or any
+other encoder.
+
+The photo standards used for the guides (ICAO Doc 9303, the EU Visa Code and
+the United States Department of State guidance) are published specifications.
+Only the numbers are used here; no document, image or template from those
+publishers is redistributed.
+
+--------------------------------------------------------------------------
+External services
+--------------------------------------------------------------------------
+
+None. The photo is decoded from a local file inside the browser, cropped on a
+canvas and handed back as a download or a print job. No photo, no filename and
+no metadata ever leaves the device, which also means there is no server-side
+storage, no account and no upload limit other than the memory of the browser.

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#17616f">
+<title>Photo Sheet · passport and ID photos, printed at home</title>
+<meta name="description" content="Crop a photo to 35 x 45 mm, 30 x 40 mm or 51 x 51 mm with millimetre guides, then print a full 10 x 15 sheet at 300 dpi. The photo never leaves your browser.">
+<meta name="author" content="Kristian Mario Miskovic (TekiDeki)">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://tekideki.github.io/Photo-Sheet/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Photo Sheet">
+<meta property="og:title" content="Photo Sheet · passport photos, printed at home">
+<meta property="og:description" content="Line the face up with millimetre guides, print a 10 x 15 sheet at 300 dpi. No upload, no account, no server.">
+<meta property="og:url" content="https://tekideki.github.io/Photo-Sheet/">
+<meta property="og:image" content="https://tekideki.github.io/Photo-Sheet/screenshots/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_GB">
+<meta property="og:locale:alternate" content="ro_RO">
+<meta property="og:locale:alternate" content="sr_RS">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Photo Sheet · passport photos, printed at home">
+<meta name="twitter:description" content="Crop to the exact size your document asks for, then print a full sheet. Everything stays in your browser.">
+<meta name="twitter:image" content="https://tekideki.github.io/Photo-Sheet/screenshots/og.png">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="styles.css">
+<style id="pageStyle">@page { size: 100mm 150mm; margin: 0; }</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Photo Sheet","applicationCategory":"MultimediaApplication","operatingSystem":"Any (web browser)","url":"https://tekideki.github.io/Photo-Sheet/","description":"Passport and ID photo cropper with millimetre guides that prints a ready to cut sheet at 300 dpi. Photos never leave the browser.","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"author":{"@type":"Person","name":"Kristian Mario Miskovic","alternateName":"TekiDeki"},"license":"https://www.apache.org/licenses/LICENSE-2.0","isAccessibleForFree":true}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main" data-i18n="skipToContent">Skip to content</a>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="#main">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32"><rect x="3" y="3" width="26" height="26" rx="6" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="13" r="4.2" fill="currentColor"/><path d="M8.5 25c1.2-4 4-6 7.5-6s6.3 2 7.5 6" fill="currentColor"/><path d="M3 10V6a3 3 0 0 1 3-3h4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+      </span>
+      <span class="brand-text">
+        <span>Photo Sheet</span>
+        <span class="brand-tagline" data-i18n="tagline">Passport photos, printed at home.</span>
+      </span>
+    </a>
+
+    <div class="topbar-actions">
+      <button type="button" class="icon-btn" id="undoBtn" disabled data-i18n-title="undoTip" title="Undo the last crop change">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg>
+        <span data-i18n="undo">Undo</span>
+      </button>
+      <button type="button" class="icon-btn" id="themeBtn" data-i18n-title="themeToggle" title="Switch light or dark theme">
+        <svg class="theme-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.8 6.8 0 0 0 9.8 9.8Z"/></svg>
+        <svg class="theme-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg>
+        <span data-i18n="theme">Theme</span>
+      </button>
+      <label class="sr-only" for="langSelect" data-i18n="language">Language</label>
+      <select id="langSelect" aria-label="Language" data-i18n-aria-label="language">
+        <option value="en">English</option>
+        <option value="ro">Română</option>
+        <option value="sr-latn">Srpski</option>
+        <option value="sr-cyrl">Српски</option>
+      </select>
+    </div>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="intro">
+    <h1 data-i18n="h1">Passport photos, printed at home</h1>
+    <p class="lede" data-i18n="lede">Choose the size your document asks for, line the face up with the guides, then print a whole sheet on photo paper. The photo never leaves this device.</p>
+    <ul class="claims">
+      <li data-i18n="claimNoUpload">No upload</li>
+      <li data-i18n="claimNoAccount">No account</li>
+      <li data-i18n="claim300">300 dpi output</li>
+      <li data-i18n="claimPaper">Ready to cut</li>
+    </ul>
+  </section>
+
+  <div class="workspace">
+
+    <section class="panel panel-photo" id="photoPanel" aria-labelledby="photoHead">
+      <header class="panel-head">
+        <h2 id="photoHead"><span class="step" aria-hidden="true">1</span><span data-i18n="step1">Your photo</span></h2>
+        <p class="panel-sub" data-i18n="step1Sub">Nothing is uploaded. The file is read locally by the browser.</p>
+      </header>
+
+      <div class="drop" id="dropZone">
+        <div class="drop-icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48"><rect x="6" y="9" width="36" height="30" rx="5" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="24" cy="21" r="6" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M13 34l7-6 5 4 4-3 6 5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <strong data-i18n="dropTitle">Choose a photo</strong>
+        <span class="drop-hint" data-i18n="dropHint">or drop a file here. JPG, PNG or WebP, up to 25 MB.</span>
+        <button type="button" class="btn btn-primary" id="pickBtn" data-i18n="pickBtn">Choose photo</button>
+        <input type="file" id="fileInput" class="sr-only" accept="image/jpeg,image/png,image/webp,image/*" aria-label="Photo file" data-i18n-aria-label="fileAria">
+        <p class="tiny" data-i18n="dropPrivacy">The photo stays in this tab. It is never uploaded, stored or sent anywhere.</p>
+      </div>
+
+      <div class="stage-block" id="stageBlock" hidden>
+        <div class="stage" id="stage">
+          <canvas id="stageCanvas" tabindex="0" role="img" aria-label="Crop preview" data-i18n-aria-label="stageAria"></canvas>
+        </div>
+
+        <div class="stage-tools">
+          <button type="button" class="btn btn-sm" id="rotateBtn" data-i18n="rotateBtn">Rotate 90</button>
+          <button type="button" class="btn btn-sm" id="flipBtn" data-i18n="flipBtn">Flip</button>
+          <button type="button" class="btn btn-sm" id="resetBtn" data-i18n="resetBtn">Reset crop</button>
+          <button type="button" class="btn btn-sm btn-quiet" id="replaceBtn" data-i18n="replaceBtn">Replace</button>
+          <button type="button" class="btn btn-sm btn-quiet" id="removeBtn" data-i18n="removeBtn">Remove</button>
+        </div>
+
+        <div class="zoom-row">
+          <label for="zoomRange" data-i18n="zoomLabel">Zoom</label>
+          <button type="button" class="round-btn" id="zoomOutBtn" data-i18n-aria-label="zoomOutAria" aria-label="Zoom out">-</button>
+          <input type="range" id="zoomRange" min="1" max="3" step="0.01" value="1" data-i18n-aria-label="zoomLabel" aria-label="Zoom">
+          <button type="button" class="round-btn" id="zoomInBtn" data-i18n-aria-label="zoomInAria" aria-label="Zoom in">+</button>
+          <output class="zoom-value" id="zoomValue" for="zoomRange">100%</output>
+        </div>
+
+        <ul class="chips" id="chips">
+          <li class="chip" id="chipResolution" data-state="good"><span class="dot" aria-hidden="true"></span><span class="chip-text">Full resolution</span></li>
+          <li class="chip" id="chipBackground" data-state="good"><span class="dot" aria-hidden="true"></span><span class="chip-text">Background even</span></li>
+          <li class="chip" id="chipSharpness" data-state="good"><span class="dot" aria-hidden="true"></span><span class="chip-text">Sharp</span></li>
+        </ul>
+
+        <div class="toggles toggles-stage">
+          <label class="switch">
+            <input type="checkbox" id="guidesToggle" checked>
+            <span class="switch-track" aria-hidden="true"></span>
+            <span data-i18n="guidesToggle">Guides</span>
+          </label>
+        </div>
+
+        <p class="hint" data-i18n="hintDrag">Drag the photo to move it. Arrow keys nudge, Shift moves further.</p>
+      </div>
+    </section>
+
+    <section class="panel panel-sheet" id="sheetPanel" aria-labelledby="sheetHead">
+      <header class="panel-head">
+        <h2 id="sheetHead"><span class="step" aria-hidden="true">2</span><span data-i18n="step2">Your sheet</span></h2>
+        <p class="panel-sub" id="presetNote">Schengen, Serbia, Romania, most of Europe</p>
+      </header>
+
+      <div class="fields">
+        <label class="field">
+          <span data-i18n="presetLabel">Photo size</span>
+          <select id="presetSelect"></select>
+        </label>
+        <div class="field field-custom" id="customField" hidden>
+          <label class="sub-field">
+            <span data-i18n="customW">Width (mm)</span>
+            <input type="number" id="customW" min="15" max="150" step="0.5" value="35" inputmode="decimal">
+          </label>
+          <label class="sub-field">
+            <span data-i18n="customH">Height (mm)</span>
+            <input type="number" id="customH" min="15" max="150" step="0.5" value="45" inputmode="decimal">
+          </label>
+        </div>
+        <label class="field">
+          <span data-i18n="sheetLabel">Paper</span>
+          <select id="sheetSelect"></select>
+        </label>
+      </div>
+
+      <div class="sheet-stage" id="sheetStage">
+        <canvas id="sheetCanvas" role="img" aria-label="Sheet preview" data-i18n-aria-label="sheetAria"></canvas>
+      </div>
+
+      <p class="count" id="countText">6 photos fit on this sheet</p>
+
+      <div class="toggles">
+        <label class="switch">
+          <input type="checkbox" id="cutMarksToggle" checked>
+          <span class="switch-track" aria-hidden="true"></span>
+          <span data-i18n="cutMarksToggle">Cut marks</span>
+        </label>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn btn-primary" id="printBtn" disabled data-i18n="printBtn">Print</button>
+        <button type="button" class="btn" id="sheetBtn" disabled data-i18n="sheetBtn">Download sheet</button>
+        <button type="button" class="btn" id="photoBtn" disabled data-i18n="photoBtn">Download photo</button>
+      </div>
+
+      <p class="tiny" id="sizeText">1181 x 1772 px · 300 dpi · 10 x 15 cm</p>
+      <p class="tiny" data-i18n="downloadNote">The PNG carries its 300 dpi, so a print comes out at the exact size.</p>
+    </section>
+  </div>
+
+  <section class="tips" aria-labelledby="tipsHead">
+    <h2 id="tipsHead" data-i18n="tipsTitle">Before you print</h2>
+    <p class="lede small" data-i18n="tipsIntro">This tool frames a photo. It cannot turn a poor photo into an accepted one, so start with a good one.</p>
+    <div class="tips-grid">
+      <details open>
+        <summary data-i18n="tip1t">Light and background</summary>
+        <p data-i18n="tip1b">Stand in front of a plain, light wall with no picture frames or door frames. Daylight from a window in front of you, never behind. No shadow on the face or on the wall.</p>
+      </details>
+      <details>
+        <summary data-i18n="tip2t">Face and expression</summary>
+        <p data-i18n="tip2b">Look straight into the lens, mouth closed, neutral expression, both eyes visible. Hair away from the eyebrows. No glasses for EU documents since 2015.</p>
+      </details>
+      <details>
+        <summary data-i18n="tip3t">Distance and height</summary>
+        <p data-i18n="tip3b">Ask someone to hold the phone at your eye level, about 1.5 m away, and to step back until your head and shoulders fill the frame. A selfie at arm's length distorts the face.</p>
+      </details>
+      <details>
+        <summary data-i18n="tip4t">Paper and printer</summary>
+        <p data-i18n="tip4b">Use glossy or matte photo paper at 10 x 15 cm and print at 100 percent. Turn off "fit to page". Plain office paper is not accepted.</p>
+      </details>
+      <details>
+        <summary data-i18n="tip5t">Do not retouch</summary>
+        <p data-i18n="tip5b">No smoothing, no whitened eyes, no replaced background. Retouched photos are rejected. Cropping and scaling are fine, changing the face is not.</p>
+      </details>
+      <details>
+        <summary data-i18n="tip6t">Check the current rules</summary>
+        <p data-i18n="tip6b">Rules differ by country and change over time. The authority that issues your document decides. When in doubt, ask them before you print twenty copies.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="about" id="about" aria-labelledby="aboutHead">
+    <h2 id="aboutHead" data-i18n="aboutTitle">About Photo Sheet</h2>
+    <p data-i18n="aboutBody">Photo Sheet crops one photo to the exact millimetre size a document asks for and lays it out on a printable sheet with cut marks. It runs entirely in the browser: no server, no account, no analytics, and no network request after the page loads.</p>
+    <div class="about-grid">
+      <div>
+        <h3 data-i18n="aboutRangesT">Where the numbers come from</h3>
+        <p data-i18n="aboutRanges">The guide bands follow published ICAO Doc 9303, EU Visa Code and US State Department ranges. On a 35 x 45 mm photo the head should measure 32 to 36 mm from chin to crown, with the eyes 27 to 32 mm above the bottom edge. Ranges are guidance, not a guarantee.</p>
+      </div>
+      <div>
+        <h3 data-i18n="aboutPrivacyT">What is stored</h3>
+        <p data-i18n="aboutPrivacy">The working photo lives in this tab's memory only. Reload the page and it is gone. Size, paper, language and theme are kept in localStorage, because nobody wants to choose them twice. There is nothing else.</p>
+      </div>
+      <div>
+        <h3 data-i18n="aboutLimitsT">What it does not do</h3>
+        <p data-i18n="aboutLimits">No face detection, no background removal, no AI. You place the head against the guides yourself, which is also why the result is predictable. The quality chips only report what the pixels can support.</p>
+      </div>
+      <div>
+        <h3 data-i18n="aboutOfflineT">Offline</h3>
+        <p data-i18n="aboutOffline">After the first visit a service worker keeps the page on your device, so it opens with no connection. Add it to your home screen and it behaves like an app.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="foot-inner">
+    <p class="foot-note" data-i18n="footerNote">No cookies, no analytics, no server. Built to be one file.</p>
+    <p class="foot-links">
+      <a href="https://github.com/TekiDeki/Photo-Sheet" target="_blank" rel="noopener noreferrer" data-i18n="source">Source code</a>
+      <a href="https://paypal.me/TekiDeki" target="_blank" rel="noopener noreferrer" data-i18n="support">Support the project</a>
+      <span data-i18n="licenseShort">Apache-2.0</span>
+      <span id="versionText">Version 1</span>
+    </p>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<div class="print-area" id="printArea" aria-hidden="true">
+  <img id="printImage" alt="">
+</div>
+
+<script src="photo.js"></script>
+<script src="i18n/locales.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
