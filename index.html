@@ -560,8 +560,15 @@ input[type="number"] {
   .print-area { display: block !important; }
   .print-area img { display: block; width: 100%; height: 100%; }
 }
+
+
+  /* regula casei: tinte de atingere pe mobil */
+  @media (pointer: coarse), (max-width: 700px) {
+    a { padding-block: 8px; }
+  }
 </style>
-<style id="pageStyle">@page { size: 100mm 150mm; margin: 0; }</style>
+<style id="pageStyle">@page { size: 100mm 150mm; margin: 0; }
+</style>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebApplication","name":"Photo Sheet","applicationCategory":"MultimediaApplication","operatingSystem":"Any (web browser)","url":"https://tekideki.github.io/Photo-Sheet/","description":"Passport and ID photo cropper with millimetre guides that prints a ready to cut sheet at 300 dpi. Photos never leave the browser.","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"author":{"@type":"Person","name":"Kristian Mario Miskovic","alternateName":"TekiDeki"},"license":"https://www.apache.org/licenses/LICENSE-2.0","isAccessibleForFree":true}
 </script>
