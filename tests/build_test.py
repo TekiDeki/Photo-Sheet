@@ -45,10 +45,10 @@ ok(html.rstrip().endswith("</html>"), "index.html ends with the closing html tag
 eq(html.count("<html "), 1, "one html element")
 version_on_disk = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
 ok(f'<html lang="en" data-version="{version_on_disk}">' in html, "the page ships in English with the current version stamped")
-ok(html.count("<style") == 2, "two style blocks: the page size rule and the app")
-ok(html.count("<script") == 4, "four script openings: structured data plus the three app scripts")
-ok(html.count("</script>") == 4, "four closing script tags")
-ok(html.count("<script>") == 3, "three plain inline scripts")
+ok(html.count("<style") == 5, "five style blocks: app, page size, small screens, touch targets and install")
+ok(html.count("<script") == 5, "five script openings: structured data, three app scripts and install")
+ok(html.count("</script>") == 5, "five closing script tags")
+ok(html.count("<script>") == 4, "four plain inline scripts, including install")
 ok('<script type="application/ld+json">' in html, "structured data is present")
 ok('"@type":"WebApplication"' in html, "structured data describes a web app")
 
@@ -127,6 +127,12 @@ ok('@page' in html, "the page size rule is inlined")
 ok('id="pageStyle"' in html, "the page size rule can be updated per paper size")
 ok('id="printArea"' in html, "the print area exists")
 ok('id="printImage"' in html, "the print image exists")
+for marker in (
+    'id="ecran-mic"', 'id="tinte-44"', 'min-height: 44px !important',
+    'id="td-install-section"', 'id="td-install-button"', 'id="td-install-dialog"',
+    'This button cannot force installation.',
+):
+    ok(marker in html, f"generated page retains {marker}")
 ok('id="fileInput"' in html and 'type="file"' in html, "the file input exists")
 
 # privacy: no network calls in the app code
@@ -156,7 +162,7 @@ ok("{{" not in html, "no template braces survive")
 # ------------------------------------------------------------------ the repo
 
 for name in ("README.md", "LICENSE", "NOTICE", ".nojekyll", "sw.js", "manifest.json",
-             "favicon.ico", "apple-touch-icon.png", "VERSION"):
+             "favicon.ico", "apple-touch-icon.png", "VERSION", "src/install.html"):
     ok((ROOT / name).exists(), f"{name} is committed")
 
 funding = (ROOT / ".github" / "FUNDING.yml").read_text(encoding="utf-8")

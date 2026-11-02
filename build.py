@@ -24,6 +24,7 @@ TEMPLATE = SRC / "template.html"
 STYLES = SRC / "styles.css"
 PHOTO_JS = SRC / "photo.js"
 APP_JS = SRC / "app.js"
+INSTALL = SRC / "install.html"
 LOCALES = SRC / "i18n" / "locales.json"
 OUT = ROOT / "index.html"
 VERSION_FILE = ROOT / "VERSION"
@@ -181,8 +182,9 @@ def build() -> str:
     styles = read(STYLES)
     photo_js = read(PHOTO_JS)
     app_js = read(APP_JS)
+    install = read(INSTALL)
     for name, text in (("template.html", template), ("styles.css", styles),
-                       ("photo.js", photo_js), ("app.js", app_js)):
+                       ("photo.js", photo_js), ("app.js", app_js), ("install.html", install)):
         check_text(name, text)
 
     # A closing script tag inside an inlined script would end the tag early
@@ -229,7 +231,7 @@ def build() -> str:
         html = html.replace(src, "<script>\n" + body.rstrip() + "\n</script>", 1)
 
     html = html.replace('<html lang="en">', '<html lang="en" data-version="' + version + '">', 1)
-    html = html.replace("</body>", "<!-- Photo Sheet " + version + " · single file build -->\n</body>", 1)
+    html = html.replace("</body>", "<!-- Photo Sheet " + version + " · single file build -->\n" + install + "</body>", 1)
 
     check_text("index.html", html)
     if "<link rel=\"stylesheet\"" in html or re.search(r'<script src="(?!https://)', html):

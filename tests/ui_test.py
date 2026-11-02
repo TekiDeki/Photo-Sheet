@@ -322,6 +322,16 @@ def run_desktop(browser, base, photo):
           "a wrong file shows a message")
     bad.unlink()
 
+    # ------------------------------------------------------- install fallback
+    install_button = page.locator("#td-install-button")
+    check(install_button.is_visible(), "the install help button is available")
+    centre(install_button).click()
+    check(page.locator("#td-install-dialog").is_visible(), "install help opens as a dialog")
+    check("cannot force installation" in page.locator("#td-install-note").inner_text(),
+          "install help is honest about browser installation")
+    page.locator("#td-install-close").click()
+    check(not page.locator("#td-install-dialog").is_visible(), "the install dialog closes")
+
     # ------------------------------------------------------------ readability
     ratios = page.evaluate(CONTRAST_JS)
     check(len(ratios) >= 6, "the contrast check found the text styles")
@@ -402,8 +412,37 @@ def run_tablet(browser, base, photo):
 
     page.locator("#printBtn").scroll_into_view_if_needed()
     check(page.locator("#printBtn").is_enabled(), "printing works on the tablet layout")
+    check(page.locator("#themeBtn").bounding_box()["height"] >= 44, "the tablet theme target is at least 44 px")
+    check(page.locator(".tips summary").first.bounding_box()["height"] >= 44,
+          "tablet accordion targets are at least 44 px")
     page.screenshot(path="/tmp/photo-sheet-ui-tablet.png", full_page=False)
     check(not errors, f"no errors on the tablet (saw {errors[:2]})")
+    context.close()
+
+
+def run_mobile(browser, base, photo):
+    context = browser.new_context(viewport={"width": 320, "height": 900}, has_touch=True, is_mobile=True,
+                                  device_scale_factor=1, accept_downloads=True)
+    page = context.new_page()
+    errors = []
+    page.on("pageerror", lambda error: errors.append(str(error)))
+    page.on("console", lambda message: errors.append(message.text) if message.type == "error" else None)
+    page.goto(base + "/", wait_until="networkidle")
+    check(page.evaluate("document.documentElement.scrollWidth - document.documentElement.clientWidth") == 0,
+          "320 px layout has no horizontal overflow")
+    check(page.locator("#themeBtn").bounding_box()["height"] >= 44, "mobile theme target is at least 44 px")
+    page.set_input_files("#fileInput", str(photo))
+    page.wait_for_function("document.querySelector('#stageBlock').hidden === false")
+    page.wait_for_timeout(250)
+    check(page.evaluate("document.documentElement.scrollWidth - document.documentElement.clientWidth") == 0,
+          "320 px editor has no horizontal overflow")
+    check(page.locator("#stageCanvas").bounding_box()["width"] <= 320, "the crop preview fits 320 px")
+    centre(page.locator("#td-install-button")).click()
+    check(page.locator("#td-install-dialog").is_visible(), "install help opens at 320 px")
+    rect = page.locator("#td-install-dialog").bounding_box()
+    check(rect["x"] >= 0 and rect["x"] + rect["width"] <= 320, "the install dialog fits 320 px")
+    page.locator("#td-install-close").click()
+    check(not errors, f"no errors on the 320 px layout (saw {errors[:2]})")
     context.close()
 
 
@@ -416,6 +455,7 @@ def main():
         )
         run_desktop(browser, base, photo)
         run_tablet(browser, base, photo)
+        run_mobile(browser, base, photo)
         browser.close()
     print(f"ui_test.py · {checks}/{checks} checks passed")
 

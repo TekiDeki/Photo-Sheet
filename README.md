@@ -63,13 +63,14 @@ These follow published ICAO Doc 9303, EU Visa Code and US State Department range
 | `src/styles.css` | All styles, light and dark, plus the print rules |
 | `src/photo.js` | The engine: millimetres, presets, sheet layout, crop maths, PNG density |
 | `src/app.js` | Interface: file loading, canvas drawing, drag and zoom, exports, print |
+| `src/install.html` | Shared browser-specific installation help and honest fallback |
 | `src/i18n/locales.json` | English, Romanian and Serbian Latin. Serbian Cyrillic is generated. |
 | `build.py` | Joins the sources into one file and refuses to build if a rule is broken |
 | `sw.js` | Service worker, cache name carries `VERSION` |
 | `manifest.json`, `icons/` | Web app manifest and icons, all drawn by `tools/make_icons.py` |
-| `tests/logic_test.cjs` | 161 checks on the engine, run with Node |
+| `tests/logic_test.cjs` | 165 checks on the engine, run with Node |
 | `tests/build_test.py` | Checks the built file: locales, characters, determinism, assets |
-| `tests/ui_test.py` | Playwright on desktop and tablet, with downloads and a real print job |
+| `tests/ui_test.py` | Playwright on desktop, tablet and 320 px mobile, with downloads, print and install fallback |
 | `tools/make_icons.py` | Draws the icons and the favicon from code |
 | `tools/make_screenshots.py` | Captures the screenshots and composes the social image |
 
