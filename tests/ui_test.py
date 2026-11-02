@@ -151,7 +151,7 @@ def run_desktop(browser, base, photo):
 
     # ---------------------------------------------------------- load a photo
     page.set_input_files("#fileInput", str(photo))
-    page.wait_for_function("document.querySelector('#stageBlock').hidden === false")
+    page.wait_for_function("() => document.querySelector('#stageBlock').hidden === false")
     check(page.locator("#dropZone").get_attribute("class").find("is-hidden") > -1, "the drop zone steps aside")
     check(page.locator("#printBtn").is_enabled(), "print is enabled after a photo arrives")
     check(page.locator("#sheetBtn").is_enabled(), "the sheet download is enabled")
@@ -228,7 +228,7 @@ def run_desktop(browser, base, photo):
     page.reload(wait_until="networkidle")
     check(page.locator("#stageBlock").is_hidden(), "a reload forgets the photo, as promised")
     page.set_input_files("#fileInput", str(photo))
-    page.wait_for_function("document.querySelector('#stageBlock').hidden === false")
+    page.wait_for_function("() => document.querySelector('#stageBlock').hidden === false")
     page.select_option("#presetSelect", "ro30")
     page.locator("#themeBtn").click()
     page.wait_for_timeout(200)
@@ -239,7 +239,7 @@ def run_desktop(browser, base, photo):
     page.locator("#themeBtn").click()
     page.select_option("#presetSelect", "std35")
     page.set_input_files("#fileInput", str(photo))
-    page.wait_for_function("document.querySelector('#stageBlock').hidden === false")
+    page.wait_for_function("() => document.querySelector('#stageBlock').hidden === false")
 
     # ----------------------------------------------------------------- export
     with page.expect_download() as download:
@@ -307,7 +307,7 @@ def run_desktop(browser, base, photo):
 
     # --------------------------------------------------------------- removing
     page.set_input_files("#fileInput", str(photo))
-    page.wait_for_function("document.querySelector('#stageBlock').hidden === false")
+    page.wait_for_function("() => document.querySelector('#stageBlock').hidden === false")
     centre(page.locator("#removeBtn")).click()
     page.wait_for_timeout(200)
     check(page.locator("#dropZone").is_visible(), "removing brings the drop zone back")
@@ -369,7 +369,7 @@ def run_desktop(browser, base, photo):
         return list.length;
     }""")
     check(registrations >= 1, "the service worker registers")
-    page.wait_for_function("navigator.serviceWorker.controller !== null || caches.keys().then(k => k.length > 0)",
+    page.wait_for_function("() => navigator.serviceWorker.controller !== null || caches.keys().then(k => k.length > 0)",
                            timeout=8000)
     cached = page.evaluate("caches.keys().then(keys => keys.filter(k => k.indexOf('photo-sheet') === 0))")
     check(len(cached) >= 1, "the app shell lands in a photo-sheet cache")
@@ -398,7 +398,7 @@ def run_tablet(browser, base, photo):
     check(page.evaluate("document.documentElement.scrollWidth - document.documentElement.clientWidth") == 0,
           "the tablet layout does not scroll sideways")
     page.set_input_files("#fileInput", str(photo))
-    page.wait_for_function("document.querySelector('#stageBlock').hidden === false")
+    page.wait_for_function("() => document.querySelector('#stageBlock').hidden === false")
     page.wait_for_timeout(300)
 
     # touch drag on the crop
@@ -432,7 +432,7 @@ def run_mobile(browser, base, photo):
           "320 px layout has no horizontal overflow")
     check(page.locator("#themeBtn").bounding_box()["height"] >= 44, "mobile theme target is at least 44 px")
     page.set_input_files("#fileInput", str(photo))
-    page.wait_for_function("document.querySelector('#stageBlock').hidden === false")
+    page.wait_for_function("() => document.querySelector('#stageBlock').hidden === false")
     page.wait_for_timeout(250)
     check(page.evaluate("document.documentElement.scrollWidth - document.documentElement.clientWidth") == 0,
           "320 px editor has no horizontal overflow")
